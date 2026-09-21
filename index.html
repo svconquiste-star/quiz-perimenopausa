@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Descubra o padrão dos seus sintomas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1A1F36; --sub:#5B6178; --bg:#F5F5FA; --card:#FFFFFF; --border:#E7E7F3;
+    --primary:#7B7CF0; --primary-dark:#5F5FE0; --primary-light:#EDEDFC;
+    --ok:#3DAA7E; --warn:#E8A33D; --danger:#E06B6B;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:'Poppins',Arial,sans-serif; line-height:1.5;}
+  h1,h2,h3{font-weight:700; margin:0 0 10px; letter-spacing:-.01em;}
+  .app{max-width:520px; margin:0 auto; min-height:100vh; display:flex; flex-direction:column; background:var(--bg);}
+  header{padding:16px 20px 0; display:flex; align-items:center; gap:10px;}
+  .backbtn{width:36px; height:36px; border-radius:10px; background:#ECECF6; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;}
+  .backbtn svg{width:16px; height:16px;}
+  .progress-wrap{flex:1;}
+  .section-label{font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--sub); text-align:center; margin-bottom:6px;}
+  .progress-track{height:6px; background:#E7E7F3; border-radius:99px; overflow:hidden; display:flex; gap:3px;}
+  .progress-seg{height:100%; flex:1; background:#E7E7F3; border-radius:99px; overflow:hidden;}
+  .progress-seg .fill{height:100%; width:0%; background:linear-gradient(90deg,var(--primary),var(--primary-dark)); transition:width .4s ease;}
+
+  main{flex:1; padding:22px 20px 28px; display:flex; flex-direction:column;}
+  .screen{display:none;}
+  .screen.active{display:flex; flex-direction:column; gap:16px; animation:fadeIn .3s ease; flex:1;}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);}}
+
+  .eyebrow{font-size:13px; color:var(--sub); font-weight:500;}
+  .q-title{font-size:23px; font-weight:700; line-height:1.3;}
+
+  .options{display:flex; flex-direction:column; gap:10px;}
+  .opt{border:1.5px solid var(--border); background:var(--card); border-radius:14px; padding:15px 16px; font-size:15px; font-weight:500; cursor:pointer; display:flex; align-items:center; gap:10px; transition:border-color .15s, background .15s;}
+  .opt .emoji{font-size:20px; width:26px; text-align:center;}
+  .opt input{display:none;}
+  .opt.selected{border-color:var(--primary); background:var(--primary-light); color:var(--primary-dark);}
+  .checkmark{width:20px; height:20px; border-radius:6px; border:1.5px solid var(--border); flex-shrink:0; display:flex; align-items:center; justify-content:center; background:#fff;}
+  .opt.selected .checkmark{background:var(--primary); border-color:var(--primary);}
+  .checkmark svg{width:12px; height:12px; display:none;}
+  .opt.selected .checkmark svg{display:block;}
+  .radiodot{width:20px; height:20px; border-radius:50%; border:1.5px solid var(--border); flex-shrink:0; background:#fff; position:relative;}
+  .opt.selected .radiodot{border-color:var(--primary);}
+  .opt.selected .radiodot::after{content:''; position:absolute; inset:4px; border-radius:50%; background:var(--primary);}
+
+  .scale-row{display:flex; justify-content:center; gap:10px; margin-top:6px;}
+  .scale-btn{width:52px; height:52px; border-radius:12px; border:1.5px solid var(--border); background:#fff; font-size:17px; font-weight:600; cursor:pointer;}
+  .scale-btn.selected{border-color:var(--primary); background:var(--primary-light); color:var(--primary-dark);}
+  .scale-labels{display:flex; justify-content:space-between; font-size:12px; color:var(--sub); max-width:322px; margin:6px auto 0;}
+
+  .privacy-note{font-size:12.5px; color:var(--sub); background:#F0EFFB; padding:11px 14px; border-radius:10px; border-left:3px solid var(--primary);}
+
+  .nav-row{margin-top:auto; padding-top:14px;}
+  button.cta{width:100%; font-family:inherit; font-size:16px; font-weight:700; border-radius:99px; padding:16px 20px; border:none; cursor:pointer; background:var(--primary); color:#fff;}
+  button.cta:disabled{background:#D5D5EE; color:#9C9CC4; cursor:not-allowed;}
+  button.cta.ok{background:var(--ok);}
+  a.skip{display:block; text-align:center; font-size:13px; color:var(--primary); font-weight:600; margin-top:10px; cursor:pointer;}
+
+  /* interstitial */
+  .intersti{margin:-22px -20px 0; display:flex; flex-direction:column;}
+  .intersti .art{height:220px; background:linear-gradient(135deg,var(--primary),#B3A6F5); display:flex; align-items:center; justify-content:center; font-size:64px;}
+  .intersti .body{background:var(--card); border-radius:22px 22px 0 0; margin-top:-18px; padding:26px 20px 8px; flex:1; display:flex; flex-direction:column; gap:12px;}
+  .intersti h2{font-size:22px;}
+  .intersti p{font-size:14.5px; color:var(--sub); margin:0;}
+  ul.checks{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px;}
+  ul.checks li{display:flex; gap:8px; align-items:flex-start; font-size:14px; color:var(--ink);}
+  ul.checks li .ic{color:var(--ok); flex-shrink:0;}
+
+  /* chart svg screen */
+  .chart-card{background:var(--card); border-radius:16px; padding:20px;}
+  .chart-card h3{font-size:16px; margin-bottom:12px;}
+
+  /* bars analysis */
+  .bars-card{background:var(--card); border-radius:16px; padding:20px; display:flex; flex-direction:column; gap:12px;}
+  .bar-row{display:flex; flex-direction:column; gap:5px;}
+  .bar-row .lbl{display:flex; justify-content:space-between; font-size:13.5px; font-weight:600;}
+  .bar-track{height:10px; background:#EFEFF7; border-radius:99px; overflow:hidden;}
+  .bar-fill{height:100%; border-radius:99px; background:linear-gradient(90deg,var(--primary),var(--primary-dark));}
+
+  /* hero intro */
+  .hero{background:var(--ink); color:#fff; border-radius:20px; padding:30px 22px; margin-top:4px;}
+  .hero .kicker{color:#C9C8F5; font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; margin-bottom:10px;}
+  .hero h1{font-size:26px; color:#fff;}
+  .hero p{font-size:14.5px; color:#C7C8DA;}
+  .hero-meta{display:flex; gap:18px; margin-top:16px;}
+  .hero-meta div b{display:block; font-size:18px; color:var(--primary-light);}
+  .hero-meta div{font-size:11.5px; color:#9C9DBB;}
+
+  /* processing screen */
+  .processing{align-items:center; text-align:center; padding-top:10px;}
+  .proc-icon{width:70px; height:70px; border-radius:20px; background:var(--primary-light); display:flex; align-items:center; justify-content:center; font-size:32px; margin:0 auto 6px;}
+  .proc-bars{width:100%; display:flex; flex-direction:column; gap:14px; margin-top:14px; text-align:left;}
+  .proc-bar-row .lbl{display:flex; justify-content:space-between; font-size:13.5px; font-weight:600; margin-bottom:5px;}
+  .proc-bar-row .lbl .pct{color:var(--sub); font-weight:500;}
+  .proc-tip{background:var(--primary-light); color:var(--primary-dark); border-radius:12px; padding:14px 16px; font-size:13.5px; margin-top:20px; text-align:left;}
+
+  /* transition blank */
+  .transition{align-items:center; justify-content:flex-end; text-align:center; min-height:60vh;}
+  .transition h2{font-size:22px;}
+
+  /* result */
+  .profile-badge{display:inline-block; background:var(--primary); color:#fff; font-size:12.5px; font-weight:700; padding:6px 14px; border-radius:99px; align-self:flex-start;}
+  .result-card{background:var(--card); border:1px solid var(--border); border-radius:16px; padding:18px;}
+  .result-card h3{font-size:15.5px; margin-bottom:8px;}
+  .sym-tags{display:flex; flex-wrap:wrap; gap:8px;}
+  .sym-tag{background:var(--primary-light); color:var(--primary-dark); font-size:12.5px; padding:5px 12px; border-radius:99px; font-weight:600;}
+  ul.check-med{margin:0; padding-left:18px; font-size:13.5px;}
+  ul.check-med li{margin-bottom:6px;}
+
+  input[type=text],input[type=email]{width:100%; padding:15px 16px; border-radius:14px; border:1.5px solid var(--border); font-size:15px; font-family:inherit; background:#fff;}
+  input[type=text]:focus,input[type=email]:focus{outline:none; border-color:var(--primary);}
+  .field-label{font-size:13px; font-weight:600; color:var(--ink); margin-bottom:4px; display:block;}
+
+  .modal-backdrop{position:fixed; inset:0; background:rgba(26,31,54,.55); display:none; align-items:flex-end; justify-content:center; z-index:100;}
+  .modal-backdrop.show{display:flex;}
+  .modal{background:#fff; border-radius:22px 22px 0 0; padding:26px 22px 28px; width:100%; max-width:520px; text-align:center;}
+  @media(min-width:560px){ .modal-backdrop{align-items:center;} .modal{border-radius:22px;} }
+  .modal h3{font-size:19px;}
+  .modal p{font-size:14px; color:var(--sub);}
+
+  .thanks-icon{font-size:44px;}
+  .footprint{font-size:12px; color:var(--sub); text-align:center; margin-top:10px;}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <header id="headerBar" style="display:none">
+    <button class="backbtn" onclick="goBack()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#1A1F36" stroke-width="2.4" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <div class="progress-wrap">
+      <div class="section-label" id="sectionLabel">SEU PERFIL</div>
+      <div class="progress-track" id="progressTrack">
+        <div class="progress-seg"><div class="fill" id="seg1"></div></div>
+        <div class="progress-seg"><div class="fill" id="seg2"></div></div>
+        <div class="progress-seg"><div class="fill" id="seg3"></div></div>
+        <div class="progress-seg"><div class="fill" id="seg4"></div></div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- INTRO -->
+    <section class="screen active" data-screen="intro">
+      <div class="hero">
+        <div class="kicker">Quiz gratuito</div>
+        <h1>Tenho medo de estar na perimenopausa e ninguém me avisou.</h1>
+        <p>Responda ao quiz e descubra se os sintomas que você sente seguem um padrão hormonal. No final, você recebe um guia personalizado, de graça.</p>
+        <div class="hero-meta">
+          <div><b>~3 min</b>de duração</div>
+          <div><b>100%</b>gratuito</div>
+          <div><b>0</b>diagnóstico — só clareza</div>
+        </div>
+      </div>
+      <div class="privacy-note">Este quiz é uma ferramenta de organização, não substitui avaliação médica.</div>
+      <div class="nav-row"><button class="cta" onclick="goTo('idade')">Começar agora</button></div>
+    </section>
+
+    <!-- ========== SEÇÃO 1: SEU PERFIL ========== -->
+
+    <section class="screen" data-screen="idade">
+      <div class="eyebrow">Pergunta 1</div>
+      <h2 class="q-title">Qual sua faixa etária?</h2>
+      <div class="options" data-kind="single" data-field="idade">
+        <label class="opt" data-value="0"><span class="radiodot"></span><span>Menos de 30 anos</span></label>
+        <label class="opt" data-value="1"><span class="radiodot"></span><span>30 a 35 anos</span></label>
+        <label class="opt" data-value="2"><span class="radiodot"></span><span>36 a 40 anos</span></label>
+        <label class="opt" data-value="3"><span class="radiodot"></span><span>41 a 45 anos</span></label>
+        <label class="opt" data-value="3"><span class="radiodot"></span><span>46 a 50 anos</span></label>
+        <label class="opt" data-value="2"><span class="radiodot"></span><span>Mais de 50 anos</span></label>
+      </div>
+      <div class="nav-row"><button class="cta" id="btn-idade" disabled onclick="goTo('ciclo')">Continuar</button></div>
+    </section>
+
+    <section class="screen" data-screen="ciclo">
+      <div class="eyebrow">Pergunta 2</div>
+      <h2 class="q-title">Como está seu ciclo menstrual hoje?</h2>
+      <div class="options" data-kind="single" data-field="ciclo">
+        <label class="opt" data-value="0"><span class="radiodot"></span><span>Regular, como sempre foi</span></label>
+        <label class="opt" data-value="2"><span class="radiodot"></span><span>Mudou recentemente</span></label>
+        <label class="opt" data-value="3"><span class="radiodot"></span><span>Irregular há alguns meses</span></label>
+        <label class="opt" data-value="3"><span class="radiodot"></span><span>Não tenho mais ciclo</span></label>
+        <label class="opt" data-value="1"><span class="radiodot"></span><span>Não sei dizer</span></label>
+      </div>
+      <div class="nav-row"><button class="cta" id="btn-ciclo" disabled onclick="goTo('inter1')">Continuar</button></div>
+    </section>
+
+    <section class="screen" data-screen="inter1">
+      <div class="intersti">
+        <div class="art">🌙</div>
+        <div class="body">
+          <h2>Seu corpo já está tentando te avisar</h2>
+          <p>Mudanças de humor, sono e ciclo não são "coisa da sua cabeça" — muitas vezes são o primeiro sinal de uma transição hormonal. Vamos te ajudar a ver o padrão.</p>
+          <ul class="checks">
+            <li><span class="ic">✓</span> Identificar o que se repete nos seus sintomas</li>
+            <li><span class="ic">✓</span> Organizar isso de um jeito simples de entender</li>
+            <li><span class="ic">✓</span> Chegar preparada na sua próxima consulta</li>
+          </ul>
+        </div>
+      </div>
+      <div class="nav-row"><button class="cta" onclick="goTo('sintomas')">Continuar</button></div>
+    </section>
+
+    <section class="screen" data-screen="sintomas">
+      <div class="eyebrow">Pergunta 3</div>
+      <h2 class="q-title">Nos últimos 3 meses, o que você sentiu?</h2>
+      <p style="font-size:13.5px;color:var(--sub);margin:-8px 0 0">Marque quantos quiser.</p>
+      <div class="options" data-kind="multi" data-field="sintomas">
+        <label class="opt" data-value="humor:irritabilidade"><span class="emoji">😤</span><span>Irritabilidade ou ansiedade fora do comum</span><span class="checkmark" style="margin-left:auto"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span></label>
+        <label class="opt" data-value="humor:nevoa"><span class="emoji">🌫️</span><span>Dificuldade de concentração / "névoa mental"</span><span class="checkmark" style="margin-left:auto"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span></label>
+        <label class="opt" data-value="sono:insonia"><span class="emoji">😴</span><span>Insônia ou despertar de madrugada</span><span class="checkmark" style="margin-left:auto"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span></label>
+        <label class="opt" data-value="calor:ondas"><span class="emoji">🔥</span><span>Ondas de calor ou suor noturno</span><span class="checkmark" style="margin-left:auto"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span></label>
+        <label class="opt" data-value="corpo:peso"><span class="emoji">⚖️</span><span>Ganho de peso / gordura abdominal</span><span class="checkmark" style="margin-left:auto"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span></label>
+        <label class="opt" data-value="pele:seca"><span class="emoji">🌵</span><span>Pele mais seca ou queda de cabelo</span><span class="checkmark" style="margin-left:auto"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span></label>
+      </div>
+      <div class="nav-row"><button class="cta" onclick="goTo('inter2')">Continuar</button></div>
+    </section>
+
+    <section class="screen" data-screen="inter2">
+      <div class="chart-card" style="margin-top:6px">
+        <h3>Um padrão comum: sintomas que se repetem por fase do ciclo</h3>
+        <svg viewBox="0 0 300 140" width="100%" height="140">
+          <polyline points="0,110 50,60 100,30 150,50 200,90 250,70 300,100" fill="none" stroke="#7B7CF0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="0" y="132" font-size="10" fill="#5B6178">Semana 1</text>
+          <text x="240" y="132" font-size="10" fill="#5B6178">Semana 4</text>
+        </svg>
+        <p style="font-size:13px;color:var(--sub);margin-top:4px">Ilustrativo — o objetivo do quiz é te ajudar a ver o SEU padrão real, não uma média genérica.</p>
+      </div>
+      <div class="nav-row"><button class="cta" onclick="goTo('intimo')">Continuar</button></div>
+    </section>
+
+    <section class="screen" data-screen="intimo">
+      <div class="eyebrow">Pergunta 4 · opcional</div>
+      <h2 class="q-title">Alguma dessas também, nos últimos 3 meses?</h2>
+      <div class="privacy-note">Pergunta opcional — suas respostas são tratadas como informação privada.</div>
+      <div class="options" data-kind="multi" data-field="sintomas">
+        <label class="opt" data-value="intimo:secura"><span class="emoji">💧</span><span>Secura vaginal ou desconforto</span><span class="checkmark" style="margin-left:auto"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span></label>
+        <label class="opt" data-value="intimo:libido"><span class="emoji">💜</span><span>Queda no desejo sexual</span><span class="checkmark" style="margin-left:auto"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span></label>
+      </div>
+      <div class="nav-row">
+        <button class="cta" onclick="goTo('tempo')">Continuar</button>
+        <a class="skip" onclick="goTo('tempo')">Prefiro não responder</a>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="tempo">
+      <div class="eyebrow">Pergunta 5</div>
+      <h2 class="q-title">Há quanto tempo você sente isso?</h2>
+      <div class="options" data-kind="single" data-field="tempo">
+        <label class="opt" data-value="0"><span class="radiodot"></span><span>Menos de 1 mês</span></label>
+        <label class="opt" data-value="1"><span class="radiodot"></span><span>Alguns meses</span></label>
+        <label class="opt" data-value="2"><span class="radiodot"></span><span>Mais de 1 ano</span></label>
+      </div>
+      <div class="nav-row"><button class="cta" id="btn-tempo" disabled onclick="goTo('incomodo')">Continuar</button></div>
+    </section>
+
+    <section class="screen" data-screen="incomodo">
+      <div class="eyebrow">Pergunta 6</div>
+      <h2 class="q-title">O que mais te incomoda hoje?</h2>
+      <div class="options" data-kind="single" data-field="incomodo">
+        <label class="opt" data-value="Humor e ansiedade"><span class="radiodot"></span><span>Humor e ansiedade</span></label>
+        <label class="opt" data-value="Sono"><span class="radiodot"></span><span>Sono</span></label>
+        <label class="opt" data-value="Calor e suor"><span class="radiodot"></span><span>Calor e suor</span></label>
+        <label class="opt" data-value="Peso e corpo"><span class="radiodot"></span><span>Peso e corpo</span></label>
+        <label class="opt" data-value="Ciclo irregular"><span class="radiodot"></span><span>Ciclo irregular</span></label>
+        <label class="opt" data-value="Vida íntima"><span class="radiodot"></span><span>Vida íntima</span></label>
+      </div>
+      <div class="nav-row"><button class="cta" id="btn-incomodo" disabled onclick="goTo('incomodo-detalhe')">Continuar</button></div>
+    </section>
+
+    <section class="screen" data-screen="incomodo-detalhe">
+      <div class="eyebrow">Pergunta 6.1</div>
+      <h2 class="q-title" id="incomodoDetalheTitle">Conte com suas palavras o que mais te incomoda sobre isso</h2>
+      <p style="font-size:13.5px;color:var(--sub);margin-top:-8px">Opcional — mas quanto mais detalhe, melhor seu guia final.</p>
+      <textarea id="inputIncomodoDetalhe" placeholder="Ex: sinto que não durmo direito há meses, e isso afeta meu trabalho no dia seguinte..." style="width:100%; min-height:110px; padding:15px 16px; border-radius:14px; border:1.5px solid var(--border); font-size:15px; font-family:inherit; background:#fff; resize:vertical;"></textarea>
+      <div class="nav-row">
+        <button class="cta" onclick="saveIncomodoDetalhe(); goTo('solucoes-tentadas')">Continuar</button>
+        <a class="skip" onclick="goTo('solucoes-tentadas')">Pular esta pergunta</a>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="solucoes-tentadas">
+      <div class="eyebrow">Pergunta 6.2</div>
+      <h2 class="q-title">O que você já tentou pra lidar com isso?</h2>
+      <p style="font-size:13.5px;color:var(--sub);margin-top:-8px">Marque quantos quiser.</p>
+      <div class="options" data-kind="multi" data-field="solucoesTentadas">
+        <label class="opt" data-value="Nada ainda"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Nada ainda</span></label>
+        <label class="opt" data-value="App de calendário ou ciclo"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>App de calendário ou ciclo</span></label>
+        <label class="opt" data-value="Suplemento ou vitamina"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Suplemento ou vitamina</span></label>
+        <label class="opt" data-value="Terapia ou psicólogo"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Terapia ou psicólogo</span></label>
+        <label class="opt" data-value="Mudar hábito (sono, alimentação, exercício)"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Mudar hábito (sono, alimentação, exercício)</span></label>
+        <label class="opt" data-value="Conversa com médico"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Conversa com médico</span></label>
+      </div>
+      <div><span class="field-label">Outro (opcional)</span><input type="text" id="inputSolucoesOutro" placeholder="Algo que não está na lista?"></div>
+      <div class="nav-row"><button class="cta" onclick="saveSolucoesTentadas(); goTo('desejo-produto')">Continuar</button></div>
+    </section>
+
+    <section class="screen" data-screen="desejo-produto">
+      <div class="eyebrow">Pergunta 6.3</div>
+      <h2 class="q-title" id="desejoProdutoTitle">Se existisse algo feito sob medida pra você, o que gostaria que ele fizesse?</h2>
+      <p style="font-size:13.5px;color:var(--sub);margin-top:-8px">Opcional — sonhe grande, é essa resposta que mais nos ajuda a melhorar.</p>
+      <textarea id="inputDesejoProduto" placeholder="Ex: queria algo que me avisasse quando meu sono vai ficar ruim, antes de acontecer..." style="width:100%; min-height:110px; padding:15px 16px; border-radius:14px; border:1.5px solid var(--border); font-size:15px; font-family:inherit; background:#fff; resize:vertical;"></textarea>
+      <div class="nav-row">
+        <button class="cta" onclick="saveDesejoProduto(); goTo('bloqueadores')">Continuar</button>
+        <a class="skip" onclick="goTo('bloqueadores')">Pular esta pergunta</a>
+      </div>
+    </section>
+
+    <!-- ========== SEÇÃO 2: SEUS PADRÕES ========== -->
+
+    <section class="screen" data-screen="bloqueadores">
+      <h2 class="q-title" style="font-size:20px">O que mais dificulta reconhecer o seu padrão</h2>
+      <p style="font-size:13.5px;color:var(--sub);margin-top:-8px">Com base no que você respondeu até aqui.</p>
+      <div class="bars-card" id="bloqueadoresCard"></div>
+      <div class="nav-row"><button class="cta" onclick="goTo('medico')">Continuar</button></div>
+    </section>
+
+    <section class="screen" data-screen="medico">
+      <div class="eyebrow">Pergunta 7</div>
+      <h2 class="q-title">Você já conversou com um médico sobre isso?</h2>
+      <div class="options" data-kind="single" data-field="medico">
+        <label class="opt" data-value="Sim, e ajudou"><span class="radiodot"></span><span>Sim, e ajudou</span></label>
+        <label class="opt" data-value="Sim, mas não resolveu"><span class="radiodot"></span><span>Sim, mas não resolveu</span></label>
+        <label class="opt" data-value="Não, ainda não fui"><span class="radiodot"></span><span>Não, ainda não fui</span></label>
+        <label class="opt" data-value="Não sabia que podia ser hormonal"><span class="radiodot"></span><span>Não sabia que podia ser hormonal</span></label>
+      </div>
+      <div class="nav-row"><button class="cta" id="btn-medico" disabled onclick="goTo('motivacao')">Continuar</button></div>
+    </section>
+
+    <section class="screen" data-screen="motivacao">
+      <div class="eyebrow">Motivação</div>
+      <h2 class="q-title">Depois de entender seu padrão, você quer se sentir:</h2>
+      <div class="options" data-kind="multi" data-field="motivacao">
+        <label class="opt" data-value="No controle"><span class="radiodot" style="border-radius:6px"></span><span>No controle da situação</span><span class="checkmark" style="margin-left:auto"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span></label>
+        <label class="opt" data-value="Aliviada"><span class="radiodot" style="border-radius:6px"></span><span>Aliviada, sabendo que não é "só a cabeça"</span><span class="checkmark" style="margin-left:auto"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span></label>
+        <label class="opt" data-value="Preparada"><span class="radiodot" style="border-radius:6px"></span><span>Preparada pra consulta médica</span><span class="checkmark" style="margin-left:auto"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span></label>
+        <label class="opt" data-value="Menos sozinha"><span class="radiodot" style="border-radius:6px"></span><span>Menos sozinha nisso</span><span class="checkmark" style="margin-left:auto"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span></label>
+      </div>
+      <div class="nav-row"><button class="cta" onclick="goTo('inter3')">Continuar</button></div>
+    </section>
+
+    <section class="screen" data-screen="inter3">
+      <div class="intersti">
+        <div class="art">🌱</div>
+        <div class="body">
+          <h2>Reconhecer o padrão já é o primeiro passo</h2>
+          <p>Só de chegar até aqui e nomear o que você sente, você já está à frente — muita gente passa anos sem conectar os pontos.</p>
+        </div>
+      </div>
+      <div class="nav-row"><button class="cta" onclick="goTo('consentimento-saude')">Continuar</button></div>
+    </section>
+
+    <!-- ========== SEÇÃO 3: SAÚDE E SEGURANÇA ========== -->
+
+    <section class="screen" data-screen="consentimento-saude">
+      <div class="eyebrow">Antes de continuar</div>
+      <h2 class="q-title">As próximas perguntas envolvem informações de saúde</h2>
+      <p style="font-size:13.5px;color:var(--sub);margin-top:-8px">Isso inclui dados sensíveis (saúde e vida íntima). Queremos ser claros sobre por que perguntamos cada coisa.</p>
+      <div class="card" style="background:var(--card); border:1px solid var(--border); border-radius:14px; padding:16px 18px;">
+        <p style="font-size:13.5px; font-weight:600; margin-bottom:8px">Por que perguntamos:</p>
+        <ul style="font-size:13px; color:var(--sub); margin:0; padding-left:18px; display:flex; flex-direction:column; gap:6px;">
+          <li><b>Medicamentos hormonais</b> — podem mudar como os sintomas se comportam</li>
+          <li><b>Gravidez/amamentação</b> — têm mudanças hormonais próprias, diferentes da perimenopausa</li>
+          <li><b>Vida íntima</b> — ajuda a entender melhor seu padrão; sempre opcional</li>
+          <li><b>Condições já diagnosticadas</b> — podem se somar ou parecer com sintomas hormonais</li>
+        </ul>
+      </div>
+      <label class="opt" id="optConsentimento" style="margin-top:4px" onclick="toggleConsentimento()">
+        <span class="checkmark" id="consentCheckmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span>
+        <span>Entendo e concordo em responder essas perguntas de saúde</span>
+      </label>
+      <div class="privacy-note">Seus dados são usados só pra personalizar seu resultado e para a pesquisa deste projeto — nunca compartilhados com terceiros. Você pode recusar sem perder acesso ao restante do quiz.</div>
+      <div class="nav-row">
+        <button class="cta" id="btn-consentimento" disabled onclick="state.consentimentoSaude='aceito'; goTo('medicamentos')">Concordar e continuar</button>
+        <a class="skip" onclick="state.consentimentoSaude='recusado'; goTo('captura')">Prefiro não responder essas perguntas</a>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="medicamentos">
+      <div class="eyebrow">Saúde e segurança</div>
+      <h2 class="q-title">Você toma algum medicamento hormonal ou contraceptivo?</h2>
+      <p style="font-size:13px;color:var(--sub);margin-top:-8px">Perguntamos isso porque alguns medicamentos hormonais podem mudar como os sintomas se comportam.</p>
+      <div class="options" data-kind="single" data-field="medicamentos">
+        <label class="opt" data-value="Não"><span class="radiodot"></span><span>Não</span></label>
+        <label class="opt" data-value="Sim"><span class="radiodot"></span><span>Sim</span></label>
+        <label class="opt" data-value="Prefiro não responder"><span class="radiodot"></span><span>Prefiro não responder</span></label>
+      </div>
+      <div class="nav-row"><button class="cta" id="btn-medicamentos" disabled onclick="goTo('gravidez')">Continuar</button></div>
+    </section>
+
+    <section class="screen" data-screen="gravidez">
+      <div class="eyebrow">Saúde e segurança</div>
+      <h2 class="q-title">Você está grávida ou amamentando?</h2>
+      <div class="options" data-kind="single" data-field="gravidez">
+        <label class="opt" data-value="Não"><span class="radiodot"></span><span>Não</span></label>
+        <label class="opt" data-value="Sim"><span class="radiodot"></span><span>Sim</span></label>
+        <label class="opt" data-value="Amamentando"><span class="radiodot"></span><span>Estou amamentando</span></label>
+        <label class="opt" data-value="Prefiro não responder"><span class="radiodot"></span><span>Prefiro não responder</span></label>
+      </div>
+      <div class="nav-row"><button class="cta" id="btn-gravidez" disabled onclick="handleGravidez()">Continuar</button></div>
+    </section>
+
+    <section class="screen" data-screen="menopausa-status">
+      <div class="eyebrow">Saúde e segurança</div>
+      <h2 class="q-title">Você já passou pela menopausa?</h2>
+      <div class="options" data-kind="single" data-field="menopausaStatus">
+        <label class="opt" data-value="Não"><span class="radiodot"></span><span>Não</span></label>
+        <label class="opt" data-value="Estou passando"><span class="radiodot"></span><span>Estou passando agora</span></label>
+        <label class="opt" data-value="Já passei"><span class="radiodot"></span><span>Já passei</span></label>
+        <label class="opt" data-value="Não sei"><span class="radiodot"></span><span>Não sei</span></label>
+      </div>
+      <div class="nav-row"><button class="cta" id="btn-menopausa-status" disabled onclick="goTo('condicoes')">Continuar</button></div>
+    </section>
+
+    <section class="screen" data-screen="condicoes">
+      <div class="eyebrow">Saúde e segurança</div>
+      <h2 class="q-title">Você já recebeu diagnóstico de alguma dessas condições?</h2>
+      <p style="font-size:13px;color:var(--sub);margin-top:-8px">Perguntamos isso porque essas condições podem se somar ou parecer com sintomas hormonais — não pra te rotular.</p>
+      <div class="options" data-kind="multi" data-field="condicoes">
+        <label class="opt" data-value="Nenhuma"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Nenhuma</span></label>
+        <label class="opt" data-value="SOP"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>SOP (ovários policísticos)</span></label>
+        <label class="opt" data-value="Endometriose"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Endometriose</span></label>
+        <label class="opt" data-value="Tireoide"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Problema de tireoide</span></label>
+        <label class="opt" data-value="Diabetes"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Diabetes</span></label>
+      </div>
+      <div class="nav-row">
+        <button class="cta" onclick="handleCondicoes()">Continuar</button>
+        <a class="skip" onclick="goTo('inter4')">Prefiro não responder</a>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="inter4">
+      <div class="intersti">
+        <div class="art">🤍</div>
+        <div class="body">
+          <h2>Você não precisa passar por isso sozinha</h2>
+          <p>Entender o que seu corpo está sinalizando é um passo real — e ter isso organizado facilita muito a conversa com quem pode te ajudar de verdade.</p>
+        </div>
+      </div>
+      <div class="nav-row"><button class="cta" onclick="goTo('captura')">Continuar</button></div>
+    </section>
+
+    <!-- ========== SEÇÃO 4: QUASE LÁ ========== -->
+
+    <section class="screen" data-screen="captura">
+      <div class="eyebrow">Quase lá</div>
+      <h2 class="q-title">Pra onde enviamos seu guia personalizado?</h2>
+      <p style="font-size:13.5px;color:var(--sub);margin-top:-8px">Seu resultado aparece na tela a seguir.</p>
+      <div><span class="field-label">Nome</span><input type="text" id="inputNome" placeholder="Seu nome"></div>
+      <div><span class="field-label">E-mail</span><input type="email" id="inputEmail" placeholder="seu@email.com"></div>
+      <div class="nav-row"><button class="cta" onclick="startProcessing()">Analisar minhas respostas</button></div>
+    </section>
+
+    <section class="screen" data-screen="processing">
+      <div class="processing">
+        <div class="proc-icon">🧩</div>
+        <h2 style="font-size:19px">Analisando suas respostas...</h2>
+        <p style="font-size:13.5px;color:var(--sub);margin:0">Isso leva só alguns segundos.</p>
+        <div class="proc-bars">
+          <div class="proc-bar-row"><div class="lbl"><span>Perfil e ciclo</span><span class="pct" id="pp1t">0%</span></div><div class="bar-track"><div class="bar-fill" id="pp1" style="width:0%"></div></div></div>
+          <div class="proc-bar-row"><div class="lbl"><span>Sintomas e padrões</span><span class="pct" id="pp2t">0%</span></div><div class="bar-track"><div class="bar-fill" id="pp2" style="width:0%"></div></div></div>
+          <div class="proc-bar-row"><div class="lbl"><span>Segurança</span><span class="pct" id="pp3t">0%</span></div><div class="bar-track"><div class="bar-fill" id="pp3" style="width:0%"></div></div></div>
+          <div class="proc-bar-row"><div class="lbl"><span>Gerando seu guia</span><span class="pct" id="pp4t">0%</span></div><div class="bar-track"><div class="bar-fill" id="pp4" style="width:0%"></div></div></div>
+        </div>
+        <div class="proc-tip" id="procTip">Dica: registrar sintomas por algumas semanas ajuda muito mais que tentar lembrar de cabeça.</div>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="result">
+      <div class="eyebrow">Seu resultado</div>
+      <div class="profile-badge" id="profileBadge"></div>
+      <h2 class="q-title" id="profileTitle" style="font-size:21px"></h2>
+      <p id="profileDesc" style="font-size:14.5px;color:var(--sub);margin:0"></p>
+
+      <div class="result-card"><h3>O que você relatou</h3><div class="sym-tags" id="symTags"></div></div>
+      <div class="result-card"><h3>O que esperar nessa fase</h3><p id="cronogramaText" style="font-size:14px;margin:0"></p></div>
+      <div class="result-card"><h3>Checklist para levar ao médico</h3><ul class="check-med" id="checklistMed"></ul></div>
+
+      <div class="privacy-note">Isso não é um diagnóstico — é uma organização das suas respostas para te ajudar a conversar com seu médico.</div>
+      <div class="nav-row"><button class="cta" onclick="goTo('interesse')">Continuar</button></div>
+    </section>
+
+    <section class="screen" data-screen="interesse">
+      <div class="eyebrow">Última pergunta</div>
+      <h2 class="q-title" id="interesseTitle">Se existisse um app fazendo esse acompanhamento automaticamente toda semana, você usaria?</h2>
+      <div class="options" data-kind="single" data-field="interesse">
+        <label class="opt" data-value="Não usaria"><span class="radiodot"></span><span>Não usaria</span></label>
+        <label class="opt" data-value="Talvez, se fosse grátis"><span class="radiodot"></span><span>Talvez, se fosse grátis</span></label>
+        <label class="opt" data-value="Pagaria uma vez, ~R$20"><span class="radiodot"></span><span>Pagaria uma vez, algo em torno de R$20</span></label>
+        <label class="opt" data-value="Pagaria assinatura mensal pequena"><span class="radiodot"></span><span>Pagaria uma assinatura mensal pequena</span></label>
+      </div>
+      <div class="nav-row"><button class="cta ok" id="btn-interesse" disabled onclick="goTo('thanks')">Enviar e receber meu guia</button></div>
+    </section>
+
+    <section class="screen" data-screen="thanks">
+      <div style="text-align:center; padding-top:20px;">
+        <div class="thanks-icon">🌿</div>
+        <h2>Obrigada por participar!</h2>
+        <p style="color:var(--sub); font-size:14.5px">Seu guia foi preparado.</p>
+        <button class="cta ok" id="btnDownloadGuia" style="margin-top:10px">Baixar meu guia completo</button>
+        <p class="footprint">Obrigada por dedicar alguns minutos a se conhecer melhor.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal">
+    <h3 id="modalTitle"></h3>
+    <p id="modalBody"></p>
+    <button class="cta" id="modalBtn" style="margin-top:14px">Entendi, continuar</button>
+  </div>
+</div>
+
+<script>
+const CONFIG = {
+  // Nome desta pesquisa/quiz — identifica as respostas no banco (haverá outras pesquisas no futuro,
+  // todas gravadas na mesma tabela, diferenciadas por este campo).
+  QUIZ_NOME: "perimenopausa",
+  // Endpoint do backend (Node.js no VPS) que grava no Postgres, schema "Quiz".
+  // Preencher com a URL real depois do deploy, ex: "https://seudominio.com/api/quiz-hormonal/respostas"
+  API_ENDPOINT: "",
+  // Endpoint para eventos de funil (analytics de abandono por tela). Opcional — se vazio, não envia nada.
+  EVENT_ENDPOINT: "",
+  GOOGLE_FORM_ACTION: "",
+  ENTRY_NOME: "", ENTRY_EMAIL: "", ENTRY_PERFIL: "", ENTRY_RESPOSTAS: "", ENTRY_INTERESSE: "",
+  NOTIFY_EMAIL: "svconquiste@gmail.com"
+};
+
+const order = ["intro","idade","ciclo","inter1","sintomas","inter2","intimo","tempo","incomodo",
+  "incomodo-detalhe","solucoes-tentadas","desejo-produto",
+  "bloqueadores","medico","motivacao","inter3",
+  "consentimento-saude","medicamentos","gravidez","menopausa-status","condicoes","inter4",
+  "captura","processing","result","interesse","thanks"];
+
+const sections = {
+  intro:0, idade:1, ciclo:1, inter1:1, sintomas:1, inter2:1, intimo:1, tempo:1, incomodo:1,
+  "incomodo-detalhe":1, "solucoes-tentadas":1, "desejo-produto":1,
+  bloqueadores:2, medico:2, motivacao:2, inter3:2,
+  "consentimento-saude":3, medicamentos:3, gravidez:3, "menopausa-status":3, condicoes:3, inter4:3,
+  captura:4, processing:4, result:4, interesse:4, thanks:4
+};
+const sectionLabels = {1:"SEU PERFIL", 2:"SEUS PADRÕES", 3:"SAÚDE E SEGURANÇA", 4:"QUASE LÁ"};
+// 11 telas na seção "Seu Perfil" (a tela "intro" é à parte, sem barra de progresso — não conta aqui),
+// 4 na "Seus Padrões", 6 na "Saúde e Segurança" (com o novo consentimento), 5 na "Quase Lá".
+// Total: 1 (intro) + 11 + 4 + 6 + 5 = 27 telas.
+const sectionScreenCount = {1:11, 2:4, 3:6, 4:5};
+
+const state = { idade:null, ciclo:null, sintomas:[], tempo:null, incomodo:null, medico:null,
+  motivacao:[], consentimentoSaude:null, medicamentos:null, gravidez:null, menopausaStatus:null, condicoes:[], interesse:null,
+  incomodoDetalhe:"", solucoesTentadas:[], solucoesTentadasOutro:"", desejoProduto:"",
+  nome:"", email:"" };
+
+// id de sessão só pra correlacionar eventos de funil (não é dado de identificação pessoal)
+const sessaoId = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())+Math.random().toString(16).slice(2));
+
+let current = "intro";
+let history_ = [];
+
+function screenEl(name){ return document.querySelector(`[data-screen="${name}"]`); }
+
+function logEvento(tela){
+  if(!CONFIG.EVENT_ENDPOINT) return;
+  fetch(CONFIG.EVENT_ENDPOINT, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ sessao_id: sessaoId, quiz_nome: CONFIG.QUIZ_NOME, tela, evento: "tela_vista" })
+  }).catch(()=>{ /* fire-and-forget — não bloqueia a navegação se falhar */ });
+}
+
+function goTo(name){
+  history_.push(current);
+  current = name;
+  render();
+  logEvento(name);
+}
+function goBack(){
+  if(history_.length===0) return;
+  current = history_.pop();
+  render(true);
+}
+function render(isBack){
+  order.forEach(n=>{ screenEl(n).classList.toggle("active", n===current); });
+  const sec = sections[current];
+  document.getElementById("headerBar").style.display = sec===0 ? "none" : "flex";
+  if(sec>0){
+    document.getElementById("sectionLabel").textContent = sectionLabels[sec];
+    for(let s=1; s<=4; s++){
+      const fill = document.getElementById("seg"+s);
+      if(s<sec) fill.style.width="100%";
+      else if(s>sec) fill.style.width="0%";
+      else {
+        const idxInSection = order.filter(n=>sections[n]===sec).indexOf(current);
+        const total = sectionScreenCount[sec];
+        fill.style.width = Math.round(((idxInSection+1)/total)*100)+"%";
+      }
+    }
+  }
+  window.scrollTo(0,0);
+  if(current==="bloqueadores") renderBloqueadores();
+  if(current==="incomodo-detalhe" || current==="desejo-produto" || current==="interesse") updateIncomodoRefs();
+  if(current==="thanks") enviarResposta();
+}
+
+function updateIncomodoRefs(){
+  const inc = state.incomodo ? state.incomodo.toLowerCase() : "o que você sente";
+  const t1 = document.getElementById("incomodoDetalheTitle");
+  if(t1) t1.textContent = `Conte com suas palavras o que mais te incomoda sobre "${state.incomodo || 'isso'}"`;
+  const t2 = document.getElementById("desejoProdutoTitle");
+  if(t2) t2.textContent = `Se existisse algo feito sob medida pra ${inc}, o que você gostaria que ele fizesse?`;
+  const t3 = document.getElementById("interesseTitle");
+  if(t3) t3.textContent = `Se existisse um app fazendo esse acompanhamento automaticamente toda semana — focado especialmente em ${inc} — você usaria?`;
+}
+
+// single-choice
+document.querySelectorAll('.options[data-kind="single"]').forEach(group=>{
+  const field = group.dataset.field;
+  group.querySelectorAll('.opt').forEach(opt=>{
+    opt.addEventListener('click', ()=>{
+      group.querySelectorAll('.opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+      state[field] = opt.dataset.value;
+      const btn = document.getElementById('btn-'+screenIdForField(field));
+      if(btn) btn.disabled = false;
+    });
+  });
+});
+function screenIdForField(field){
+  const map = {idade:"idade", ciclo:"ciclo", tempo:"tempo", incomodo:"incomodo", medico:"medico",
+    medicamentos:"medicamentos", gravidez:"gravidez", menopausaStatus:"menopausa-status", interesse:"interesse"};
+  return map[field] || field;
+}
+
+// multi-choice
+document.querySelectorAll('.options[data-kind="multi"]').forEach(group=>{
+  const field = group.dataset.field;
+  group.querySelectorAll('.opt').forEach(opt=>{
+    opt.addEventListener('click', ()=>{
+      const val = opt.dataset.value;
+      opt.classList.toggle('selected');
+      const arr = state[field];
+      if(opt.classList.contains('selected')){
+        if(!arr.includes(val)) arr.push(val);
+      } else {
+        state[field] = arr.filter(v=>v!==val);
+      }
+    });
+  });
+});
+
+function renderBloqueadores(){
+  const sistemas = {humor:0, sono:0, calor:0, corpo:0, pele:0, intimo:0};
+  state.sintomas.forEach(s=>{ const k=s.split(':')[0]; if(sistemas[k]!==undefined) sistemas[k]++; });
+  const labels = {humor:"Humor e mente", sono:"Sono", calor:"Calor e corpo", corpo:"Peso e articulações", pele:"Pele e cabelo", intimo:"Vida íntima"};
+  const entries = Object.entries(sistemas).filter(([k,v])=>v>0);
+  const total = entries.reduce((a,[,v])=>a+v,0) || 1;
+  const card = document.getElementById("bloqueadoresCard");
+  if(entries.length===0){
+    card.innerHTML = '<p style="font-size:14px;color:var(--sub);margin:0">Você não marcou sintomas específicos — isso também é uma informação válida.</p>';
+    return;
+  }
+  entries.sort((a,b)=>b[1]-a[1]);
+  card.innerHTML = entries.map(([k,v])=>{
+    const pct = Math.round((v/total)*100);
+    return `<div class="bar-row"><div class="lbl"><span>${labels[k]}</span><span>${pct}%</span></div><div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div></div>`;
+  }).join("");
+}
+
+function handleGravidez(){
+  if(state.gravidez==="Sim" || state.gravidez==="Amamentando"){
+    showModal(
+      "Isso muda o contexto dos seus sintomas",
+      "Gravidez e amamentação têm suas próprias mudanças hormonais, diferentes da perimenopausa. Recomendamos falar com seu médico sobre o que você está sentindo. Vamos continuar preparando seu guia mesmo assim.",
+      ()=>goTo('menopausa-status')
+    );
+  } else {
+    goTo('menopausa-status');
+  }
+}
+
+function handleCondicoes(){
+  const risky = state.condicoes.some(c=>["Diabetes","Tireoide"].includes(c));
+  if(risky){
+    showModal(
+      "Vale uma conversa com seu médico",
+      "Condições como diabetes ou problemas de tireoide podem imitar ou se somar a sintomas hormonais. Isso não muda seu guia, mas reforça a importância de levar essas informações à consulta.",
+      ()=>goTo('inter4')
+    );
+  } else {
+    goTo('inter4');
+  }
+}
+
+function toggleConsentimento(){
+  const opt = document.getElementById('optConsentimento');
+  opt.classList.toggle('selected');
+  document.getElementById('btn-consentimento').disabled = !opt.classList.contains('selected');
+}
+
+function saveIncomodoDetalhe(){
+  state.incomodoDetalhe = document.getElementById('inputIncomodoDetalhe').value.trim();
+}
+function saveSolucoesTentadas(){
+  state.solucoesTentadasOutro = document.getElementById('inputSolucoesOutro').value.trim();
+}
+function saveDesejoProduto(){
+  state.desejoProduto = document.getElementById('inputDesejoProduto').value.trim();
+}
+
+function showModal(title, body, onContinue){
+  document.getElementById("modalTitle").textContent = title;
+  document.getElementById("modalBody").textContent = body;
+  document.getElementById("modalBackdrop").classList.add("show");
+  document.getElementById("modalBtn").onclick = ()=>{
+    document.getElementById("modalBackdrop").classList.remove("show");
+    onContinue();
+  };
+}
+
+function startProcessing(){
+  state.nome = document.getElementById("inputNome").value.trim() || "você";
+  state.email = document.getElementById("inputEmail").value.trim();
+  goTo('processing');
+  const tips = [
+    "Dica: registrar sintomas por algumas semanas ajuda muito mais que tentar lembrar de cabeça.",
+    "Dica: leve essa lista impressa ou no celular pra sua próxima consulta.",
+    "Dica: sintomas que se repetem todo mês são o sinal mais forte de padrão hormonal."
+  ];
+  let tipIdx = 0;
+  const tipTimer = setInterval(()=>{ tipIdx=(tipIdx+1)%tips.length; document.getElementById("procTip").textContent = tips[tipIdx]; }, 1400);
+
+  const bars = [
+    {fill:'pp1', text:'pp1t', delay:0, dur:700},
+    {fill:'pp2', text:'pp2t', delay:700, dur:900},
+    {fill:'pp3', text:'pp3t', delay:1600, dur:600},
+    {fill:'pp4', text:'pp4t', delay:2200, dur:900}
+  ];
+  bars.forEach(b=>{
+    setTimeout(()=>animateBar(b.fill, b.text, b.dur), b.delay);
+  });
+  setTimeout(()=>{ clearInterval(tipTimer); showResult(); goTo('result'); }, 3300);
+}
+function animateBar(fillId, textId, duration){
+  const start = performance.now();
+  function step(now){
+    const t = Math.min(1, (now-start)/duration);
+    const pct = Math.round(t*100);
+    document.getElementById(fillId).style.width = pct+"%";
+    document.getElementById(textId).textContent = pct+"%";
+    if(t<1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function showResult(){
+  let score = 0;
+  score += Number(state.idade||0);
+  score += Number(state.ciclo||0);
+  score += Number(state.tempo||0);
+  const sistemasSet = new Set(state.sintomas.map(s=>s.split(':')[0]));
+  score += sistemasSet.size;
+  const temCalor = state.sintomas.some(s=>s.startsWith('calor:'));
+
+  let perfil;
+  if(state.menopausaStatus==="Já passei"){
+    perfil = {badge:"Fase pós-menopausa", title:"Você já passou pela transição principal",
+      desc:"Alguns sintomas ainda podem aparecer nessa fase — vale conversar com seu médico sobre o que ainda incomoda.",
+      cronograma:"Nessa fase, o foco costuma ser manter qualidade de vida a longo prazo (ossos, coração, sono)."};
+  } else if(sistemasSet.size<=1 && Number(state.ciclo||0)<=1){
+    perfil = {badge:"Perfil especial", title:"Seus sintomas parecem concentrados em uma única área",
+      desc:"Isso não descarta causa hormonal, mas vale investigar também outras causas junto com seu médico.",
+      cronograma:"Continue observando — se os sintomas se espalharem pra outras áreas, isso já é um sinal mais claro."};
+  } else if(score<=3){
+    perfil = {badge:"Perfil A · Sinais iniciais", title:"Você está no começo de possíveis mudanças hormonais",
+      desc:"Seu ciclo ainda está relativamente estável, mas alguns sinais já apareceram.",
+      cronograma:"Nessa fase, os sintomas costumam ser leves e passageiros. Vale começar a observar padrões."};
+  } else if(score<=6 && !temCalor){
+    perfil = {badge:"Perfil B · Transição em curso", title:"Seu corpo pode estar em transição hormonal",
+      desc:"Você relatou sintomas em mais de uma área e/ou mudanças no ciclo — um padrão comum da perimenopausa.",
+      cronograma:"É comum o ciclo variar de duração e intensidade, junto com oscilações de humor e sono."};
+  } else {
+    perfil = {badge:"Perfil C · Fase avançada", title:"Seus sintomas sugerem uma fase mais avançada da transição",
+      desc:"Ciclo irregular, sintomas em várias áreas e sinais físicos como calor/suor — vale priorizar uma consulta.",
+      cronograma:"Os sintomas costumam ficar mais intensos antes de estabilizar. Acompanhamento médico ajuda a decidir os próximos passos."};
+  }
+
+  document.getElementById("profileBadge").textContent = perfil.badge;
+  document.getElementById("profileTitle").textContent = perfil.title;
+  document.getElementById("profileDesc").textContent = perfil.desc;
+  document.getElementById("cronogramaText").textContent = perfil.cronograma;
+
+  const labels = {
+    'humor:irritabilidade':'Irritabilidade/ansiedade','humor:nevoa':'Névoa mental',
+    'sono:insonia':'Insônia','calor:ondas':'Ondas de calor','corpo:peso':'Peso/gordura abdominal',
+    'pele:seca':'Pele/cabelo','intimo:secura':'Secura íntima','intimo:libido':'Queda de libido'
+  };
+  const tagsEl = document.getElementById("symTags");
+  tagsEl.innerHTML = state.sintomas.length===0 ? '<span class="sym-tag">Nenhum sintoma marcado</span>'
+    : state.sintomas.map(s=>`<span class="sym-tag">${labels[s]||s}</span>`).join("");
+
+  const base = [
+    "Meu ciclo mudou — isso pode ser hormonal?",
+    "Os sintomas que registrei têm relação entre si?",
+    "Vale pedir algum exame agora ou só observar mais um tempo?"
+  ];
+  if(state.incomodo) base.push(`Sobre "${state.incomodo}" especificamente — o que posso fazer?`);
+  document.getElementById("checklistMed").innerHTML = base.map(i=>`<li>${i}</li>`).join("");
+}
+
+function mailtoFallback(resumo, respostasResumo){
+  const subject = encodeURIComponent(`Novo resultado do quiz (${CONFIG.QUIZ_NOME}) — ` + state.nome);
+  const body = encodeURIComponent(
+    `Pesquisa: ${CONFIG.QUIZ_NOME}\nNome: ${state.nome}\nE-mail: ${state.email}\n\n${resumo}\n\nSintomas: ${respostasResumo}\nMaior incômodo: ${state.incomodo||"-"}\nDetalhe do incômodo: ${state.incomodoDetalhe||"-"}\nJá foi ao médico: ${state.medico||"-"}\nSoluções já tentadas: ${(state.solucoesTentadas||[]).join(", ")||"-"}\nOutro (soluções): ${state.solucoesTentadasOutro||"-"}\nDesejo de produto: ${state.desejoProduto||"-"}\nMedicamentos: ${state.medicamentos||"-"}\nGravidez/amamentação: ${state.gravidez||"-"}\nStatus menopausa: ${state.menopausaStatus||"-"}\nCondições: ${(state.condicoes||[]).join(", ")||"-"}\nMotivação: ${(state.motivacao||[]).join(", ")||"-"}\nInteresse no app: ${state.interesse||"-"}`
+  );
+  window.location.href = `mailto:${CONFIG.NOTIFY_EMAIL}?subject=${subject}&body=${body}`;
+}
+
+function timelinePhaseIndex(){
+  const badge = document.getElementById("profileBadge").textContent;
+  if(badge.includes("Fase pós-menopausa")) return 3;
+  if(badge.includes("Perfil C")) return 2;
+  if(badge.includes("Perfil B")) return 1;
+  if(badge.includes("Perfil A")) return 0;
+  return -1; // "Perfil especial" — nenhuma fase marcada, sintomas concentrados em 1 área
+}
+
+function buildGuiaHTML(){
+  const perfilBadge = document.getElementById("profileBadge").textContent;
+  const perfilTitle = document.getElementById("profileTitle").textContent;
+  const perfilDesc = document.getElementById("profileDesc").textContent;
+  const symTagsHTML = document.getElementById("symTags").innerHTML;
+  const checklistHTML = document.getElementById("checklistMed").innerHTML;
+  const dataHoje = new Date().toLocaleDateString('pt-BR');
+  const nomeExibido = (state.nome && state.nome !== "você") ? state.nome : null;
+
+  const phases = [
+    {title:"Ciclo regular, sintomas novos", desc:"Primeiros sinais leves — humor, sono ou energia mudam um pouco, mas o ciclo ainda é previsível."},
+    {title:"Transição em curso", desc:"Ciclo começa a variar de duração e intensidade. Sintomas em mais de uma área (humor + sono, por exemplo) se tornam mais frequentes."},
+    {title:"Sintomas vasomotores", desc:"Ondas de calor e suor noturno costumam aparecer com mais força nessa fase, junto com os sintomas anteriores."},
+    {title:"Estabilização", desc:"Com o tempo, o corpo se adapta ao novo padrão hormonal e os sintomas tendem a diminuir de intensidade."}
+  ];
+  const activeIdx = timelinePhaseIndex();
+  const timelineHTML = phases.map((p,i)=>{
+    const isActive = i===activeIdx;
+    return `<div class="tl-item${isActive?' active':''}">
+      <div><div class="tl-dot"></div>${i<3?'<div class="tl-line"></div>':''}</div>
+      <div class="tl-content"><h4>${p.title}${isActive?' <span class="tl-tag">você está aqui</span>':''}</h4><p>${p.desc}</p></div>
+    </div>`;
+  }).join("");
+
+  const medAlertHTML = state.medicamentos === "Sim"
+    ? `<div class="alert-card"><b>⚠️ Vale uma atenção extra</b>Você mencionou tomar medicamento hormonal — leve essa informação à consulta, ela pode influenciar como os sintomas se comportam.</div>`
+    : "";
+
+  const closingCtaHTML = (state.interesse && state.interesse !== "Não usaria")
+    ? `<a class="cta" href="mailto:svconquiste@gmail.com?subject=Quero%20saber%20quando%20o%20app%20estiver%20pronto">Quero ser avisada</a>`
+    : "";
+
+  return `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seu guia personalizado — padrão hormonal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1A1F36; --sub:#5B6178; --bg:#EDEDF5; --card:#FFFFFF; --border:#E7E7F3;
+    --primary:#7B7CF0; --primary-dark:#5F5FE0; --primary-light:#EDEDFC;
+    --ok:#3DAA7E; --ok-light:#E6F5EE; --warn:#E8A33D; --warn-light:#FBF1E1; --danger:#E06B6B; --danger-light:#FBEAEA;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:'Poppins',Arial,sans-serif; line-height:1.55;}
+  h1,h2,h3{font-weight:700; margin:0 0 10px; letter-spacing:-.01em;}
+  p{margin:0 0 11px;}
+  .wrap{max-width:760px; margin:0 auto; padding:28px 16px 60px;}
+  .page{background:var(--card); border-radius:18px; padding:40px 40px 56px; margin-bottom:22px; position:relative; box-shadow:0 1px 3px rgba(26,31,54,.06); min-height:640px; display:flex; flex-direction:column;}
+  .page-head{display:flex; justify-content:space-between; align-items:center; font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--sub); margin-bottom:22px;}
+  .page-head .brand{color:var(--primary-dark);}
+  .page-foot{margin-top:auto; padding-top:18px; display:flex; justify-content:space-between; font-size:11px; color:#A0A2BC;}
+  .eyebrow{font-size:12px; font-weight:700; letter-spacing:.09em; text-transform:uppercase; color:var(--primary-dark); margin-bottom:8px;}
+  .lead{font-size:15px; color:var(--sub);}
+  .cover-page{background:linear-gradient(160deg,var(--ink) 0%,#33395C 100%); color:#fff; text-align:center; justify-content:center; align-items:center;}
+  .cover-page .logo{font-size:13px; font-weight:700; letter-spacing:.12em; color:#C9C8F5; margin-bottom:24px;}
+  .cover-page .icon{font-size:46px; margin-bottom:16px;}
+  .cover-page h1{font-size:29px; color:#fff; max-width:460px;}
+  .cover-page p.sub{color:#B9BAD8; font-size:14.5px; max-width:420px;}
+  .cover-page .meta{margin-top:26px; display:inline-flex; gap:22px; background:rgba(255,255,255,.07); padding:12px 22px; border-radius:14px; font-size:12px; color:#C9C8F5;}
+  .cover-page .meta b{display:block; color:#fff; font-size:14px;}
+  .cover-page .toc{margin-top:34px; text-align:left; background:rgba(255,255,255,.05); border-radius:14px; padding:18px 22px; width:100%; max-width:360px;}
+  .cover-page .toc div{font-size:12.5px; color:#D6D7F0; padding:5px 0; display:flex; justify-content:space-between;}
+  .cover-page .toc div b{color:#fff; font-weight:600;}
+  .profile-badge{display:inline-block; background:var(--primary); color:#fff; font-size:12.5px; font-weight:700; padding:6px 16px; border-radius:99px; margin-bottom:12px;}
+  .sym-tags{display:flex; flex-wrap:wrap; gap:8px;}
+  .sym-tag{background:var(--primary-light); color:var(--primary-dark); font-size:13px; padding:6px 13px; border-radius:99px; font-weight:600;}
+  .card{background:#FAFAFD; border:1px solid var(--border); border-radius:14px; padding:18px 20px; margin-top:14px;}
+  .card h3{font-size:14.5px;}
+  .timeline{display:flex; flex-direction:column; margin-top:10px;}
+  .tl-item{display:flex; gap:14px; position:relative; padding-bottom:20px;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-dot{width:13px; height:13px; border-radius:50%; background:var(--border); border:3px solid #fff; box-shadow:0 0 0 1.5px var(--border); flex-shrink:0; margin-top:3px; position:relative; z-index:1;}
+  .tl-item.active .tl-dot{background:var(--primary); box-shadow:0 0 0 1.5px var(--primary);}
+  .tl-line{position:absolute; left:6px; top:18px; bottom:-4px; width:1.5px; background:var(--border);}
+  .tl-content h4{font-size:14px; font-weight:700; margin:0 0 3px;}
+  .tl-content p{font-size:13px; color:var(--sub); margin:0;}
+  .tl-item.active .tl-content h4{color:var(--primary-dark);}
+  .tl-tag{display:inline-block; font-size:10px; font-weight:700; color:var(--primary-dark); background:var(--primary-light); padding:2px 7px; border-radius:99px; margin-left:7px; vertical-align:middle;}
+  .alert-card{border-left:4px solid var(--warn); background:var(--warn-light); border-radius:10px; padding:13px 15px; margin-top:14px; font-size:13px;}
+  .danger-card{border-left:4px solid var(--danger); background:var(--danger-light); border-radius:10px; padding:14px 16px; margin-top:14px; font-size:13px;}
+  .danger-card b{display:block; margin-bottom:4px;}
+  .danger-card ul{margin:6px 0 0; padding-left:18px;}
+  .sym-guide{display:flex; flex-direction:column; gap:14px; margin-top:8px;}
+  .sym-block{border:1px solid var(--border); border-radius:14px; padding:16px 18px;}
+  .sym-block h4{font-size:14.5px; margin:0 0 8px; display:flex; align-items:center; gap:8px;}
+  .sym-block .row{display:grid; grid-template-columns:90px 1fr; gap:8px; font-size:12.5px; margin-bottom:5px;}
+  .sym-block .row b{color:var(--sub); font-weight:600;}
+  .sym-block .row.ajuda b{color:var(--ok);}
+  .sym-block .row.evitar b{color:var(--danger);}
+  .sym-block .row.alerta b{color:var(--warn);}
+  table.plan{width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;}
+  table.plan th{background:var(--ink); color:#fff; text-align:left; padding:9px 10px; font-size:11.5px; text-transform:uppercase; letter-spacing:.03em;}
+  table.plan td{padding:10px; border-bottom:1px solid var(--border); vertical-align:top;}
+  table.plan tr:nth-child(even) td{background:#FAFAFD;}
+  .faq-item{border-bottom:1px solid var(--border); padding:13px 0;}
+  .faq-item:last-child{border-bottom:none;}
+  .faq-item .q{font-weight:700; font-size:13.5px; margin-bottom:5px; display:flex; gap:8px;}
+  .faq-item .q .qm{color:var(--primary); flex-shrink:0;}
+  .faq-item .a{font-size:13px; color:var(--sub); margin:0; padding-left:20px;}
+  ul.check{list-style:none; margin:12px 0 0; padding:0; display:flex; flex-direction:column; gap:8px;}
+  ul.check li{display:flex; gap:9px; align-items:flex-start; font-size:13.5px; background:#FAFAFD; border:1px solid var(--border); border-radius:10px; padding:11px 13px;}
+  .disclaimer{background:var(--primary-light); border-radius:12px; padding:14px 16px; font-size:12.5px; color:var(--primary-dark);}
+  .closing-page{text-align:center; justify-content:center; align-items:center;}
+  .closing-page h2{font-size:21px;}
+  .closing-page p{color:var(--sub); font-size:14px; max-width:420px;}
+  .closing-page .cta{display:inline-block; margin-top:12px; background:var(--primary); color:#fff; font-weight:700; font-size:14px; padding:13px 26px; border-radius:99px; text-decoration:none;}
+  .sources{font-size:11px; color:var(--sub); margin-top:26px; max-width:440px;}
+  @media print{
+    body{background:#fff;}
+    .wrap{max-width:100%; padding:0;}
+    .page{box-shadow:none; border-radius:0; page-break-after:always; min-height:100vh; padding:32px 40px;}
+    .page:last-child{page-break-after:auto;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="page cover-page">
+    <div class="logo">SEU GUIA PERSONALIZADO</div>
+    <div class="icon">🌙</div>
+    <h1>Entendendo o padrão por trás do que você sente</h1>
+    <p class="sub">${nomeExibido ? `Olá, ${nomeExibido}! U` : 'U'}m guia completo, feito a partir das suas respostas ao quiz, para te ajudar a organizar o que sente e conversar com mais clareza com seu médico.</p>
+    <div class="meta">
+      <div><b>${dataHoje}</b>data</div>
+      <div><b>${perfilBadge.split('·')[0].trim()}</b>seu resultado</div>
+      <div><b>7 páginas</b>conteúdo</div>
+    </div>
+    <div class="toc">
+      <div><span>1. Capa</span><b>—</b></div>
+      <div><span>2. Seu resultado</span><b>pág. 2</b></div>
+      <div><span>3. Linha do tempo hormonal</span><b>pág. 3</b></div>
+      <div><span>4. Guia por sintoma</span><b>pág. 4</b></div>
+      <div><span>5. Plano de 4 semanas</span><b>pág. 5</b></div>
+      <div><span>6. Perguntas frequentes + checklist</span><b>pág. 6</b></div>
+      <div><span>7. Fechamento e fontes</span><b>pág. 7</b></div>
+    </div>
+  </div>
+
+  <div class="page">
+    <div class="page-head"><span class="brand">Seu guia personalizado</span><span>Página 2 de 7</span></div>
+    <div class="eyebrow">Seu resultado</div>
+    <span class="profile-badge">${perfilBadge}</span>
+    <h2 style="font-size:21px">${perfilTitle}</h2>
+    <p class="lead">${perfilDesc}</p>
+    <div class="card">
+      <h3>O que você relatou</h3>
+      <div class="sym-tags">${symTagsHTML}</div>
+    </div>
+    <div class="card">
+      <h3>Como ler este guia</h3>
+      <p style="font-size:13px;margin:0">Este guia <b>não é um diagnóstico</b>. Ele organiza o que você mesma relatou, junta isso com informação geral sobre a transição hormonal, e te dá um roteiro prático — pra você chegar mais preparada na sua próxima consulta, não pra substituí-la.</p>
+    </div>
+    ${medAlertHTML}
+    <div class="page-foot"><span>criandoinfoproduto</span><span>2/7</span></div>
+  </div>
+
+  <div class="page">
+    <div class="page-head"><span class="brand">Seu guia personalizado</span><span>Página 3 de 7</span></div>
+    <div class="eyebrow">O que esperar em cada fase</div>
+    <h2 style="font-size:20px">Linha do tempo da transição hormonal</h2>
+    <p class="lead">${activeIdx>=0 ? 'Você está aproximadamente aqui ↓ — mas cada corpo segue nesse ritmo de um jeito diferente, e isso não é uma régua exata.' : 'Seus sintomas ficaram concentrados numa única área, então não marcamos uma fase específica — vale investigar outras causas possíveis também, junto com seu médico.'}</p>
+    <div class="timeline">${timelineHTML}</div>
+    <div class="danger-card">
+      <b>🚩 Procure ajuda médica logo, independente da fase, se você tiver:</b>
+      <ul>
+        <li>Sangramento muito intenso ou prolongado (mais de 7 dias)</li>
+        <li>Dor forte e incomum, fora do padrão do seu ciclo</li>
+        <li>Palpitações fortes, falta de ar ou dor no peito</li>
+        <li>Mudança de humor que afeta sua rotina de forma séria</li>
+      </ul>
+    </div>
+    <div class="page-foot"><span>criandoinfoproduto</span><span>3/7</span></div>
+  </div>
+
+  <div class="page">
+    <div class="page-head"><span class="brand">Seu guia personalizado</span><span>Página 4 de 7</span></div>
+    <div class="eyebrow">Guia por sintoma</div>
+    <h2 style="font-size:20px">O que ajuda, o que evitar, quando procurar ajuda</h2>
+    <div class="sym-guide">
+      <div class="sym-block">
+        <h4>😤 Humor e ansiedade</h4>
+        <div class="row ajuda"><b>Ajuda</b><span>Notar em quais dias do ciclo piora — isso já é informação valiosa.</span></div>
+        <div class="row evitar"><b>Evitar</b><span>Se cobrar por "não estar normal" — a oscilação tem causa, não é falha sua.</span></div>
+        <div class="row alerta"><b>Atenção</b><span>Se afetar sua rotina/trabalho com frequência, vale conversa com profissional de saúde mental.</span></div>
+      </div>
+      <div class="sym-block">
+        <h4>🌫️ Névoa mental</h4>
+        <div class="row ajuda"><b>Ajuda</b><span>Anotar tarefas em vez de confiar só na memória.</span></div>
+        <div class="row evitar"><b>Evitar</b><span>Acumular decisões importantes pros dias de mais cansaço.</span></div>
+        <div class="row alerta"><b>Atenção</b><span>Costuma melhorar com o tempo — se piorar muito, vale investigar outras causas.</span></div>
+      </div>
+      <div class="sym-block">
+        <h4>😴 Sono</h4>
+        <div class="row ajuda"><b>Ajuda</b><span>Horário fixo pra dormir e acordar, mesmo nos dias ruins.</span></div>
+        <div class="row evitar"><b>Evitar</b><span>Sonecas longas durante o dia pra "compensar" — pode atrapalhar a noite seguinte.</span></div>
+        <div class="row alerta"><b>Atenção</b><span>Insônia persistente por semanas seguidas merece avaliação.</span></div>
+      </div>
+      <div class="sym-block">
+        <h4>🔥 Calor e suor noturno</h4>
+        <div class="row ajuda"><b>Ajuda</b><span>Roupas leves à noite e ambiente ventilado.</span></div>
+        <div class="row evitar"><b>Evitar</b><span>Álcool e cafeína perto da hora de dormir — costumam intensificar.</span></div>
+        <div class="row alerta"><b>Atenção</b><span>Se vier junto com palpitação forte, procure avaliação médica.</span></div>
+      </div>
+      <div class="sym-block">
+        <h4>⚖️ Peso e corpo</h4>
+        <div class="row ajuda"><b>Ajuda</b><span>Focar em hábitos sustentáveis, não em restrição — o metabolismo muda nessa fase.</span></div>
+        <div class="row evitar"><b>Evitar</b><span>Dietas muito restritivas — tendem a piorar cansaço e humor.</span></div>
+      </div>
+      <div class="sym-block">
+        <h4>🩸 Ciclo irregular</h4>
+        <div class="row ajuda"><b>Ajuda</b><span>Continuar registrando a data de início de cada ciclo.</span></div>
+        <div class="row alerta"><b>Atenção</b><span>Sangramento muito fora do padrão (ver alerta na página 3) merece avaliação.</span></div>
+      </div>
+    </div>
+    <div class="page-foot"><span>criandoinfoproduto</span><span>4/7</span></div>
+  </div>
+
+  <div class="page">
+    <div class="page-head"><span class="brand">Seu guia personalizado</span><span>Página 5 de 7</span></div>
+    <div class="eyebrow">Roteiro prático</div>
+    <h2 style="font-size:20px">Seu plano de 4 semanas</h2>
+    <p class="lead">Um passo pequeno por semana — nada disso exige aplicativo, só papel e atenção.</p>
+    <table class="plan">
+      <tr><th>Semana</th><th>Foco</th><th>Ação</th></tr>
+      <tr><td><b>1</b></td><td>Observar</td><td>Anote, todo dia, humor, sono e qualquer sintoma físico — só uma linha por dia.</td></tr>
+      <tr><td><b>2</b></td><td>Sono</td><td>Fixe um horário de dormir e acordar. Note se os sintomas de sono mudam.</td></tr>
+      <tr><td><b>3</b></td><td>Rotina</td><td>Reduza cafeína/álcool à noite por alguns dias e observe se o calor/suor muda.</td></tr>
+      <tr><td><b>4</b></td><td>Consulta</td><td>Reúna suas anotações e leve o checklist da página 6 pra sua consulta.</td></tr>
+    </table>
+    <div class="page-foot"><span>criandoinfoproduto</span><span>5/7</span></div>
+  </div>
+
+  <div class="page">
+    <div class="page-head"><span class="brand">Seu guia personalizado</span><span>Página 6 de 7</span></div>
+    <div class="eyebrow">Perguntas frequentes</div>
+    <h2 style="font-size:19px">Dúvidas comuns nessa fase</h2>
+    <div>
+      <div class="faq-item"><div class="q"><span class="qm">?</span>Isso significa que já estou na menopausa?</div><p class="a">Não necessariamente. A transição pode durar anos antes da menopausa de fato (definida como 12 meses sem menstruar). Este guia fala da fase de transição, não do diagnóstico final.</p></div>
+      <div class="faq-item"><div class="q"><span class="qm">?</span>Preciso de reposição hormonal?</div><p class="a">Essa decisão é só do seu médico, caso a caso. Este guia não recomenda tratamento — ele te ajuda a chegar organizada pra essa conversa.</p></div>
+      <div class="faq-item"><div class="q"><span class="qm">?</span>Os sintomas vão piorar?</div><p class="a">Variam muito de pessoa pra pessoa. Alguns sintomas tendem a se intensificar antes de estabilizar — por isso registrar o padrão ajuda tanto.</p></div>
+      <div class="faq-item"><div class="q"><span class="qm">?</span>Isso pode ser outra coisa, não hormonal?</div><p class="a">Sim — por isso o checklist abaixo existe: é pra investigar com seu médico, não pra concluir sozinha.</p></div>
+    </div>
+    <div class="eyebrow" style="margin-top:18px">Para sua consulta médica</div>
+    <h3 style="font-size:15px">Checklist do que perguntar</h3>
+    <ul class="check">${checklistHTML.replace(/<li>/g,'<li><span class="box"></span>')}</ul>
+    <div class="page-foot"><span>criandoinfoproduto</span><span>6/7</span></div>
+  </div>
+
+  <div class="page closing-page">
+    <div class="page-head" style="width:100%"><span class="brand">Seu guia personalizado</span><span>Página 7 de 7</span></div>
+    <h2>Obrigada por se conhecer um pouco melhor hoje 🌿</h2>
+    <p>Guardar este guia e revisá-lo antes da sua consulta já é um passo real.${state.interesse && state.interesse!=="Não usaria" ? ' Se um dia você quiser acompanhar esse padrão automaticamente, toda semana, avisamos assim que estiver pronto.' : ''}</p>
+    ${closingCtaHTML}
+    <div class="disclaimer" style="margin-top:26px; text-align:left">
+      <b>Isso não é um diagnóstico.</b> Este guia organiza o que você mesma relatou, combinado com informação geral sobre a transição hormonal. Nenhuma informação aqui substitui avaliação médica.
+    </div>
+    <div class="sources">
+      Guia gerado em ${dataHoje} a partir das suas respostas ao quiz. Conteúdo educativo geral — para orientação sobre o seu caso específico, consulte um profissional de saúde.
+    </div>
+  </div>
+
+</div>
+</body>
+</html>`;
+}
+
+document.getElementById("btnDownloadGuia").addEventListener("click", ()=>{
+  const html = buildGuiaHTML();
+  const blob = new Blob([html], {type: "text/html"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "guia-perimenopausa.html";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url), 2000);
+});
+
+let __respostaEnviada = false;
+async function enviarResposta(){
+  if(__respostaEnviada) return; // evita duplicar o envio se a tela for revisitada
+  __respostaEnviada = true;
+
+  const resumo = `${document.getElementById("profileBadge").textContent} — ${document.getElementById("profileTitle").textContent}`;
+  const respostasResumo = state.sintomas.join(", ") || "nenhum sintoma marcado";
+
+  if(CONFIG.API_ENDPOINT){
+    try{
+      const res = await fetch(CONFIG.API_ENDPOINT, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          quiz_nome: CONFIG.QUIZ_NOME,
+          nome: state.nome, email: state.email,
+          idade: state.idade, ciclo: state.ciclo, tempo: state.tempo,
+          incomodo: state.incomodo, incomodo_detalhe: state.incomodoDetalhe,
+          medico: state.medico, medicamentos: state.medicamentos, gravidez: state.gravidez,
+          menopausa_status: state.menopausaStatus, interesse: state.interesse,
+          perfil_resultado: resumo,
+          sintomas: state.sintomas, condicoes: state.condicoes, motivacao: state.motivacao,
+          solucoes_tentadas: state.solucoesTentadas, solucoes_tentadas_outro: state.solucoesTentadasOutro,
+          desejo_produto: state.desejoProduto,
+          raw_payload: state
+        })
+      });
+      if(!res.ok) throw new Error("Falha no envio ao servidor: " + res.status);
+    } catch(err){
+      console.error("Falha ao enviar para o endpoint, usando fallback por e-mail:", err);
+      mailtoFallback(resumo, respostasResumo);
+    }
+  } else if(CONFIG.GOOGLE_FORM_ACTION){
+    const params = new URLSearchParams();
+    if(CONFIG.ENTRY_NOME) params.set(CONFIG.ENTRY_NOME, state.nome);
+    if(CONFIG.ENTRY_EMAIL) params.set(CONFIG.ENTRY_EMAIL, state.email);
+    if(CONFIG.ENTRY_PERFIL) params.set(CONFIG.ENTRY_PERFIL, resumo);
+    if(CONFIG.ENTRY_RESPOSTAS) params.set(CONFIG.ENTRY_RESPOSTAS, respostasResumo);
+    if(CONFIG.ENTRY_INTERESSE) params.set(CONFIG.ENTRY_INTERESSE, state.interesse||"");
+    window.open(CONFIG.GOOGLE_FORM_ACTION + "?" + params.toString(), "_blank");
+  } else {
+    mailtoFallback(resumo, respostasResumo);
+  }
+}
+
+render();
+</script>
+</body>
+</html>

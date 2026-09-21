@@ -1,0 +1,16 @@
+{
+  "name": "quiz-hormonal-api",
+  "version": "1.0.0",
+  "description": "Endpoint minimo para receber respostas do quiz hormonal e gravar no Postgres (schema Quiz).",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "migrate": "node migrate.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "pg": "^8.12.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5"
+  }
+}
