@@ -1,4 +1,5 @@
 require('dotenv').config();
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const { pool, schema } = require('./db');
@@ -8,6 +9,10 @@ app.use(express.json({ limit: '256kb' }));
 
 const corsOrigin = process.env.CORS_ORIGIN || '*';
 app.use(cors({ origin: corsOrigin }));
+
+// Serve o quiz (frontend estático) a partir do mesmo app/domínio.
+// index.html fica em public/ e é servido automaticamente na raiz ("/").
+app.use(express.static(path.join(__dirname, 'public')));
 
 const TABLE = `"${schema}".quiz_hormonal_respostas`;
 const EVENTS_TABLE = `"${schema}".funil_eventos`;
