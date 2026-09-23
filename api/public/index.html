@@ -167,7 +167,7 @@ src="https://www.facebook.com/tr?id=1008192215565838&ev=PageView&noscript=1"
     <section class="screen active" data-screen="intro">
       <div class="hero">
         <div class="kicker">Quiz gratuito</div>
-        <h1>Tenho medo de estar na perimenopausa e ninguém me avisou.</h1>
+        <h1>Tenho medo de estar na PERIMENOPAUSA e ninguém me avisou.</h1>
         <p>Responda ao quiz e descubra se os sintomas que você sente seguem um padrão hormonal. No final, você recebe um guia personalizado, de graça.</p>
         <div class="hero-meta">
           <div><b>~3 min</b>de duração</div>
@@ -329,6 +329,38 @@ src="https://www.facebook.com/tr?id=1008192215565838&ev=PageView&noscript=1"
       </div>
     </section>
 
+    <section class="screen" data-screen="outras-dores">
+      <div class="eyebrow">Além disso</div>
+      <h2 class="q-title">Saindo um pouco do tema hormonal: o que mais pesa no seu dia a dia hoje?</h2>
+      <p style="font-size:13.5px;color:var(--sub);margin-top:-8px">Marque quantos quiser.</p>
+      <div class="options" data-kind="multi" data-field="outrasDores">
+        <label class="opt" data-value="Dinheiro / organização financeira"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Dinheiro / organização financeira</span></label>
+        <label class="opt" data-value="Falta de tempo / produtividade"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Falta de tempo / produtividade</span></label>
+        <label class="opt" data-value="Relacionamento (parceiro, família)"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Relacionamento (parceiro, família)</span></label>
+        <label class="opt" data-value="Filhos / cuidado com outras pessoas"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Filhos / cuidado com outras pessoas</span></label>
+        <label class="opt" data-value="Trabalho / carreira"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Trabalho / carreira</span></label>
+        <label class="opt" data-value="Ansiedade ou saúde mental (fora do hormonal)"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Ansiedade ou saúde mental (fora do hormonal)</span></label>
+        <label class="opt" data-value="Sono ruim (mesmo fora da perimenopausa)"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Sono ruim (mesmo fora da perimenopausa)</span></label>
+        <label class="opt" data-value="Corpo / autoestima (não relacionado a hormônio)"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Corpo / autoestima (não relacionado a hormônio)</span></label>
+        <label class="opt" data-value="Alimentação ou rotina alimentar"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Alimentação ou rotina alimentar</span></label>
+        <label class="opt" data-value="Organização da casa / rotina no geral"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Organização da casa / rotina no geral</span></label>
+        <label class="opt" data-value="Uso excessivo de celular / redes sociais"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Uso excessivo de celular / redes sociais</span></label>
+      </div>
+      <div><span class="field-label">Quer contar com suas palavras?</span><textarea id="inputOutrasDoresOutro" placeholder="Descreva outra dor ou problema que não está na lista — pode ser qualquer coisa" style="width:100%; min-height:90px; padding:15px 16px; border-radius:14px; border:1.5px solid var(--border); font-size:15px; font-family:inherit; background:#fff; resize:vertical;"></textarea></div>
+      <div class="nav-row"><button class="cta" onclick="saveOutrasDores(); goTo('inter1b')">Continuar</button></div>
+    </section>
+
+    <section class="screen" data-screen="inter1b">
+      <div class="intersti">
+        <div class="art">💬</div>
+        <div class="body">
+          <h2>Você já respondeu bastante — falta pouco</h2>
+          <p>Cada resposta sua ajuda a gente a entender não só seus sintomas, mas o que realmente faria diferença na sua vida. Vamos terminar de montar seu retrato completo.</p>
+        </div>
+      </div>
+      <div class="nav-row"><button class="cta" onclick="goTo('bloqueadores')">Continuar</button></div>
+    </section>
+
     <!-- ========== SEÇÃO 2: SEUS PADRÕES ========== -->
 
     <section class="screen" data-screen="bloqueadores">
@@ -370,34 +402,10 @@ src="https://www.facebook.com/tr?id=1008192215565838&ev=PageView&noscript=1"
           <p>Só de chegar até aqui e nomear o que você sente, você já está à frente — muita gente passa anos sem conectar os pontos.</p>
         </div>
       </div>
-      <div class="nav-row"><button class="cta" onclick="goTo('consentimento-saude')">Continuar</button></div>
+      <div class="nav-row"><button class="cta" onclick="goTo('medicamentos')">Continuar</button></div>
     </section>
 
     <!-- ========== SEÇÃO 3: SAÚDE E SEGURANÇA ========== -->
-
-    <section class="screen" data-screen="consentimento-saude">
-      <div class="eyebrow">Antes de continuar</div>
-      <h2 class="q-title">As próximas perguntas envolvem informações de saúde</h2>
-      <p style="font-size:13.5px;color:var(--sub);margin-top:-8px">Isso inclui dados sensíveis (saúde e vida íntima). Queremos ser claros sobre por que perguntamos cada coisa.</p>
-      <div class="card" style="background:var(--card); border:1px solid var(--border); border-radius:14px; padding:16px 18px;">
-        <p style="font-size:13.5px; font-weight:600; margin-bottom:8px">Por que perguntamos:</p>
-        <ul style="font-size:13px; color:var(--sub); margin:0; padding-left:18px; display:flex; flex-direction:column; gap:6px;">
-          <li><b>Medicamentos hormonais</b> — podem mudar como os sintomas se comportam</li>
-          <li><b>Gravidez/amamentação</b> — têm mudanças hormonais próprias, diferentes da perimenopausa</li>
-          <li><b>Vida íntima</b> — ajuda a entender melhor seu padrão; sempre opcional</li>
-          <li><b>Condições já diagnosticadas</b> — podem se somar ou parecer com sintomas hormonais</li>
-        </ul>
-      </div>
-      <label class="opt" id="optConsentimento" style="margin-top:4px" onclick="toggleConsentimento()">
-        <span class="checkmark" id="consentCheckmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span>
-        <span>Entendo e concordo em responder essas perguntas de saúde</span>
-      </label>
-      <div class="privacy-note">Seus dados são usados só pra personalizar seu resultado e para a pesquisa deste projeto — nunca compartilhados com terceiros. Você pode recusar sem perder acesso ao restante do quiz.</div>
-      <div class="nav-row">
-        <button class="cta" id="btn-consentimento" disabled onclick="state.consentimentoSaude='aceito'; goTo('medicamentos')">Concordar e continuar</button>
-        <a class="skip" onclick="state.consentimentoSaude='recusado'; goTo('captura')">Prefiro não responder essas perguntas</a>
-      </div>
-    </section>
 
     <section class="screen" data-screen="medicamentos">
       <div class="eyebrow">Saúde e segurança</div>
@@ -497,10 +505,48 @@ src="https://www.facebook.com/tr?id=1008192215565838&ev=PageView&noscript=1"
 
       <div class="result-card"><h3>O que você relatou</h3><div class="sym-tags" id="symTags"></div></div>
       <div class="result-card"><h3>O que esperar nessa fase</h3><p id="cronogramaText" style="font-size:14px;margin:0"></p></div>
-      <div class="result-card"><h3>Checklist para levar ao médico</h3><ul class="check-med" id="checklistMed"></ul></div>
+      <div class="result-card" style="display:none"><h3>Checklist para levar ao médico</h3><ul class="check-med" id="checklistMed"></ul></div>
 
       <div class="privacy-note">Isso não é um diagnóstico — é uma organização das suas respostas para te ajudar a conversar com seu médico.</div>
-      <div class="nav-row"><button class="cta" onclick="goTo('interesse')">Continuar</button></div>
+      <div class="nav-row"><button class="cta" onclick="goTo('app-formato')">Continuar</button></div>
+    </section>
+
+    <section class="screen" data-screen="app-formato">
+      <div class="eyebrow">Sobre o futuro app</div>
+      <h2 class="q-title">Se existisse um app pra te ajudar com isso, o que seria mais importante pra você?</h2>
+      <p style="font-size:13.5px;color:var(--sub);margin-top:-8px">Marque quantos quiser.</p>
+      <div class="options" data-kind="multi" data-field="appFormato">
+        <label class="opt" data-value="Lembrete diário pra registrar como estou me sentindo"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Lembrete diário pra registrar como estou me sentindo</span></label>
+        <label class="opt" data-value="Gráfico/histórico visual dos meus sintomas ao longo do tempo"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Gráfico/histórico visual dos meus sintomas ao longo do tempo</span></label>
+        <label class="opt" data-value="Dicas personalizadas com base no meu padrão"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Dicas personalizadas com base no meu padrão</span></label>
+        <label class="opt" data-value="Um resumo pronto pra levar/exportar pra consulta médica"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Um resumo pronto pra levar/exportar pra consulta médica</span></label>
+        <label class="opt" data-value="Alertas antecipando quando um sintoma pode piorar"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Alertas antecipando quando um sintoma pode piorar</span></label>
+        <label class="opt" data-value="Comunidade — trocar com outras mulheres passando por isso"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Comunidade — trocar com outras mulheres passando por isso</span></label>
+      </div>
+      <div class="nav-row"><button class="cta" onclick="goTo('app-frequencia')">Continuar</button></div>
+    </section>
+
+    <section class="screen" data-screen="app-frequencia">
+      <div class="eyebrow">Sobre o futuro app</div>
+      <h2 class="q-title">Com que frequência você acha que usaria um app assim?</h2>
+      <div class="options" data-kind="single" data-field="appFrequencia">
+        <label class="opt" data-value="Todo dia"><span class="radiodot"></span><span>Todo dia</span></label>
+        <label class="opt" data-value="Algumas vezes por semana"><span class="radiodot"></span><span>Algumas vezes por semana</span></label>
+        <label class="opt" data-value="Só quando sentir algo diferente"><span class="radiodot"></span><span>Só quando sentir algo diferente</span></label>
+        <label class="opt" data-value="Não sei dizer"><span class="radiodot"></span><span>Não sei dizer</span></label>
+      </div>
+      <div class="nav-row"><button class="cta" id="btn-app-frequencia" disabled onclick="goTo('app-desejo-livre')">Continuar</button></div>
+    </section>
+
+    <section class="screen" data-screen="app-desejo-livre">
+      <div class="eyebrow">Sobre o futuro app</div>
+      <h2 class="q-title">O que faria você abrir esse app até nos dias em que está tudo bem?</h2>
+      <p style="font-size:13.5px;color:var(--sub);margin-top:-8px">Opcional — pensa no que faria isso virar hábito, não só uma ferramenta de crise.</p>
+      <textarea id="inputAppDesejoLivre" placeholder="Ex: se ele me mostrasse algo interessante sobre mim mesma, não só quando algo está errado..." style="width:100%; min-height:110px; padding:15px 16px; border-radius:14px; border:1.5px solid var(--border); font-size:15px; font-family:inherit; background:#fff; resize:vertical;"></textarea>
+      <div class="nav-row">
+        <button class="cta" onclick="saveAppDesejoLivre(); goTo('interesse')">Continuar</button>
+        <a class="skip" onclick="goTo('interesse')">Pular esta pergunta</a>
+      </div>
     </section>
 
     <section class="screen" data-screen="interesse">
@@ -551,27 +597,29 @@ const CONFIG = {
 };
 
 const order = ["intro","idade","ciclo","inter1","sintomas","inter2","intimo","tempo","incomodo",
-  "incomodo-detalhe","solucoes-tentadas","desejo-produto",
+  "incomodo-detalhe","solucoes-tentadas","desejo-produto","outras-dores","inter1b",
   "bloqueadores","medico","motivacao","inter3",
-  "consentimento-saude","medicamentos","gravidez","menopausa-status","condicoes","inter4",
-  "captura","processing","result","interesse","thanks"];
+  "medicamentos","gravidez","menopausa-status","condicoes","inter4",
+  "captura","processing","result","app-formato","app-frequencia","app-desejo-livre","interesse","thanks"];
 
 const sections = {
   intro:0, idade:1, ciclo:1, inter1:1, sintomas:1, inter2:1, intimo:1, tempo:1, incomodo:1,
-  "incomodo-detalhe":1, "solucoes-tentadas":1, "desejo-produto":1,
+  "incomodo-detalhe":1, "solucoes-tentadas":1, "desejo-produto":1, "outras-dores":1, "inter1b":1,
   bloqueadores:2, medico:2, motivacao:2, inter3:2,
-  "consentimento-saude":3, medicamentos:3, gravidez:3, "menopausa-status":3, condicoes:3, inter4:3,
-  captura:4, processing:4, result:4, interesse:4, thanks:4
+  medicamentos:3, gravidez:3, "menopausa-status":3, condicoes:3, inter4:3,
+  captura:4, processing:4, result:4, "app-formato":4, "app-frequencia":4, "app-desejo-livre":4, interesse:4, thanks:4
 };
 const sectionLabels = {1:"SEU PERFIL", 2:"SEUS PADRÕES", 3:"SAÚDE E SEGURANÇA", 4:"QUASE LÁ"};
-// 11 telas na seção "Seu Perfil" (a tela "intro" é à parte, sem barra de progresso — não conta aqui),
-// 4 na "Seus Padrões", 6 na "Saúde e Segurança" (com o novo consentimento), 5 na "Quase Lá".
-// Total: 1 (intro) + 11 + 4 + 6 + 5 = 27 telas.
-const sectionScreenCount = {1:11, 2:4, 3:6, 4:5};
+// 13 telas na seção "Seu Perfil" (a tela "intro" é à parte, sem barra de progresso — não conta aqui;
+// inclui a tela "outras dores" fora do tema hormonal + o interstitial de apoio inter1b),
+// 4 na "Seus Padrões", 5 na "Saúde e Segurança" (sem a tela de consentimento, removida a pedido), 8 na "Quase Lá" (com as 3 novas telas de expectativa de app).
+// Total: 1 (intro) + 13 + 4 + 5 + 8 = 31 telas.
+const sectionScreenCount = {1:13, 2:4, 3:5, 4:8};
 
 const state = { idade:null, ciclo:null, sintomas:[], tempo:null, incomodo:null, medico:null,
   motivacao:[], consentimentoSaude:null, medicamentos:null, gravidez:null, menopausaStatus:null, condicoes:[], interesse:null,
   incomodoDetalhe:"", solucoesTentadas:[], solucoesTentadasOutro:"", desejoProduto:"",
+  outrasDores:[], outrasDoresOutro:"", appFormato:[], appFrequencia:null, appDesejoLivre:"",
   nome:"", email:"" };
 
 // id de sessão só pra correlacionar eventos de funil (não é dado de identificação pessoal)
@@ -650,7 +698,8 @@ document.querySelectorAll('.options[data-kind="single"]').forEach(group=>{
 });
 function screenIdForField(field){
   const map = {idade:"idade", ciclo:"ciclo", tempo:"tempo", incomodo:"incomodo", medico:"medico",
-    medicamentos:"medicamentos", gravidez:"gravidez", menopausaStatus:"menopausa-status", interesse:"interesse"};
+    medicamentos:"medicamentos", gravidez:"gravidez", menopausaStatus:"menopausa-status",
+    appFrequencia:"app-frequencia", interesse:"interesse"};
   return map[field] || field;
 }
 
@@ -714,12 +763,6 @@ function handleCondicoes(){
   }
 }
 
-function toggleConsentimento(){
-  const opt = document.getElementById('optConsentimento');
-  opt.classList.toggle('selected');
-  document.getElementById('btn-consentimento').disabled = !opt.classList.contains('selected');
-}
-
 function saveIncomodoDetalhe(){
   state.incomodoDetalhe = document.getElementById('inputIncomodoDetalhe').value.trim();
 }
@@ -728,6 +771,12 @@ function saveSolucoesTentadas(){
 }
 function saveDesejoProduto(){
   state.desejoProduto = document.getElementById('inputDesejoProduto').value.trim();
+}
+function saveOutrasDores(){
+  state.outrasDoresOutro = document.getElementById('inputOutrasDoresOutro').value.trim();
+}
+function saveAppDesejoLivre(){
+  state.appDesejoLivre = document.getElementById('inputAppDesejoLivre').value.trim();
 }
 
 function showModal(title, body, onContinue){
@@ -824,7 +873,9 @@ function showResult(){
   const base = [
     "Meu ciclo mudou — isso pode ser hormonal?",
     "Os sintomas que registrei têm relação entre si?",
-    "Vale pedir algum exame agora ou só observar mais um tempo?"
+    "Vale pedir algum exame agora ou só observar mais um tempo?",
+    "Existe algum exame que faça sentido pedir agora, considerando meu perfil?",
+    "Há algo no meu histórico que deveria mudar a forma como eu acompanho isso?"
   ];
   if(state.incomodo) base.push(`Sobre "${state.incomodo}" especificamente — o que posso fazer?`);
   document.getElementById("checklistMed").innerHTML = base.map(i=>`<li>${i}</li>`).join("");
@@ -855,6 +906,14 @@ function buildGuiaHTML(){
   const checklistHTML = document.getElementById("checklistMed").innerHTML;
   const dataHoje = new Date().toLocaleDateString('pt-BR');
   const nomeExibido = (state.nome && state.nome !== "você") ? state.nome : null;
+  const escHtml = (s)=> String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+  const incomodoQuoteHTML = state.incomodoDetalhe
+    ? `<div class="quote-card"><b>O que você nos contou, com suas palavras</b><q>"${escHtml(state.incomodoDetalhe)}"</q><span class="ack">Obrigada por compartilhar isso — colocamos seu relato no centro deste guia.</span></div>`
+    : "";
+  const desejoQuoteHTML = state.desejoProduto
+    ? `<div class="quote-card"><b>Uma coisa que você nos disse</b><q>"${escHtml(state.desejoProduto)}"</q><span class="ack">Isso é exatamente o tipo de coisa que nos ajuda a pensar em algo melhor pra você e pra outras mulheres — obrigada por confiar isso a nós.</span></div>`
+    : "";
 
   const phases = [
     {title:"Ciclo regular, sintomas novos", desc:"Primeiros sinais leves — humor, sono ou energia mudam um pouco, mas o ciclo ainda é previsível."},
@@ -942,6 +1001,14 @@ function buildGuiaHTML(){
   .sym-block .row.ajuda b{color:var(--ok);}
   .sym-block .row.evitar b{color:var(--danger);}
   .sym-block .row.alerta b{color:var(--warn);}
+  .sym-block .row.apoio b{color:var(--primary-dark);}
+  .quote-card{background:var(--primary-light); border-radius:14px; padding:16px 18px; margin-top:14px;}
+  .quote-card b{display:block; font-size:12px; text-transform:uppercase; letter-spacing:.05em; color:var(--primary-dark); margin-bottom:6px;}
+  .quote-card q{display:block; font-style:italic; font-size:14px; color:var(--ink); margin:0;}
+  .quote-card .ack{display:block; font-size:12.5px; color:var(--sub); margin-top:8px; font-style:normal;}
+  .support-line{font-size:13.5px; color:var(--primary-dark); font-weight:600; background:var(--primary-light); border-radius:10px; padding:10px 14px; margin-top:10px;}
+  ul.affirm{list-style:none; margin:16px 0 0; padding:0; display:flex; flex-direction:column; gap:8px;}
+  ul.affirm li{font-size:14px; font-weight:600; color:var(--primary-dark); background:var(--primary-light); border-radius:10px; padding:11px 15px;}
   table.plan{width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;}
   table.plan th{background:var(--ink); color:#fff; text-align:left; padding:9px 10px; font-size:11.5px; text-transform:uppercase; letter-spacing:.03em;}
   table.plan td{padding:10px; border-bottom:1px solid var(--border); vertical-align:top;}
@@ -997,10 +1064,12 @@ function buildGuiaHTML(){
     <span class="profile-badge">${perfilBadge}</span>
     <h2 style="font-size:21px">${perfilTitle}</h2>
     <p class="lead">${perfilDesc}</p>
+    <div class="support-line">Isso não te define — é só um retrato do momento, e momentos passam.</div>
     <div class="card">
       <h3>O que você relatou</h3>
       <div class="sym-tags">${symTagsHTML}</div>
     </div>
+    ${incomodoQuoteHTML}
     <div class="card">
       <h3>Como ler este guia</h3>
       <p style="font-size:13px;margin:0">Este guia <b>não é um diagnóstico</b>. Ele organiza o que você mesma relatou, junta isso com informação geral sobre a transição hormonal, e te dá um roteiro prático — pra você chegar mais preparada na sua próxima consulta, não pra substituí-la.</p>
@@ -1015,6 +1084,7 @@ function buildGuiaHTML(){
     <h2 style="font-size:20px">Linha do tempo da transição hormonal</h2>
     <p class="lead">${activeIdx>=0 ? 'Você está aproximadamente aqui ↓ — mas cada corpo segue nesse ritmo de um jeito diferente, e isso não é uma régua exata.' : 'Seus sintomas ficaram concentrados numa única área, então não marcamos uma fase específica — vale investigar outras causas possíveis também, junto com seu médico.'}</p>
     <div class="timeline">${timelineHTML}</div>
+    <div class="support-line">Não existe um jeito "certo" de atravessar essa fase — o que vale é o seu ritmo.</div>
     <div class="danger-card">
       <b>🚩 Procure ajuda médica logo, independente da fase, se você tiver:</b>
       <ul>
@@ -1037,34 +1107,40 @@ function buildGuiaHTML(){
         <div class="row ajuda"><b>Ajuda</b><span>Notar em quais dias do ciclo piora — isso já é informação valiosa.</span></div>
         <div class="row evitar"><b>Evitar</b><span>Se cobrar por "não estar normal" — a oscilação tem causa, não é falha sua.</span></div>
         <div class="row alerta"><b>Atenção</b><span>Se afetar sua rotina/trabalho com frequência, vale conversa com profissional de saúde mental.</span></div>
+        <div class="row apoio"><b>Apoio</b><span>Se sentir que "não é você mesma" às vezes — isso é real, tem explicação hormonal, e passa.</span></div>
       </div>
       <div class="sym-block">
         <h4>🌫️ Névoa mental</h4>
         <div class="row ajuda"><b>Ajuda</b><span>Anotar tarefas em vez de confiar só na memória.</span></div>
         <div class="row evitar"><b>Evitar</b><span>Acumular decisões importantes pros dias de mais cansaço.</span></div>
         <div class="row alerta"><b>Atenção</b><span>Costuma melhorar com o tempo — se piorar muito, vale investigar outras causas.</span></div>
+        <div class="row apoio"><b>Apoio</b><span>Sua capacidade não diminuiu — só está temporariamente mais difícil de acessar.</span></div>
       </div>
       <div class="sym-block">
         <h4>😴 Sono</h4>
         <div class="row ajuda"><b>Ajuda</b><span>Horário fixo pra dormir e acordar, mesmo nos dias ruins.</span></div>
         <div class="row evitar"><b>Evitar</b><span>Sonecas longas durante o dia pra "compensar" — pode atrapalhar a noite seguinte.</span></div>
         <div class="row alerta"><b>Atenção</b><span>Insônia persistente por semanas seguidas merece avaliação.</span></div>
+        <div class="row apoio"><b>Apoio</b><span>Uma noite ruim não apaga o progresso das outras — seja gentil consigo mesma.</span></div>
       </div>
       <div class="sym-block">
         <h4>🔥 Calor e suor noturno</h4>
         <div class="row ajuda"><b>Ajuda</b><span>Roupas leves à noite e ambiente ventilado.</span></div>
         <div class="row evitar"><b>Evitar</b><span>Álcool e cafeína perto da hora de dormir — costumam intensificar.</span></div>
         <div class="row alerta"><b>Atenção</b><span>Se vier junto com palpitação forte, procure avaliação médica.</span></div>
+        <div class="row apoio"><b>Apoio</b><span>Parece embaraçoso na hora, mas é só o corpo se ajustando — não tem nada de errado com você.</span></div>
       </div>
       <div class="sym-block">
         <h4>⚖️ Peso e corpo</h4>
         <div class="row ajuda"><b>Ajuda</b><span>Focar em hábitos sustentáveis, não em restrição — o metabolismo muda nessa fase.</span></div>
         <div class="row evitar"><b>Evitar</b><span>Dietas muito restritivas — tendem a piorar cansaço e humor.</span></div>
+        <div class="row apoio"><b>Apoio</b><span>Seu corpo está mudando de fase, não "falhando" — ajustar expectativas ajuda tanto quanto ajustar hábitos.</span></div>
       </div>
       <div class="sym-block">
         <h4>🩸 Ciclo irregular</h4>
         <div class="row ajuda"><b>Ajuda</b><span>Continuar registrando a data de início de cada ciclo.</span></div>
         <div class="row alerta"><b>Atenção</b><span>Sangramento muito fora do padrão (ver alerta na página 3) merece avaliação.</span></div>
+        <div class="row apoio"><b>Apoio</b><span>A imprevisibilidade é frustrante, mas registrar já tira um pouco do caos.</span></div>
       </div>
     </div>
     <div class="page-foot"><span>criandoinfoproduto</span><span>4/7</span></div>
@@ -1077,11 +1153,12 @@ function buildGuiaHTML(){
     <p class="lead">Um passo pequeno por semana — nada disso exige aplicativo, só papel e atenção.</p>
     <table class="plan">
       <tr><th>Semana</th><th>Foco</th><th>Ação</th></tr>
-      <tr><td><b>1</b></td><td>Observar</td><td>Anote, todo dia, humor, sono e qualquer sintoma físico — só uma linha por dia.</td></tr>
-      <tr><td><b>2</b></td><td>Sono</td><td>Fixe um horário de dormir e acordar. Note se os sintomas de sono mudam.</td></tr>
-      <tr><td><b>3</b></td><td>Rotina</td><td>Reduza cafeína/álcool à noite por alguns dias e observe se o calor/suor muda.</td></tr>
-      <tr><td><b>4</b></td><td>Consulta</td><td>Reúna suas anotações e leve o checklist da página 6 pra sua consulta.</td></tr>
+      <tr><td><b>1</b></td><td>Observar</td><td>Anote, todo dia, humor, sono e qualquer sintoma físico — só uma linha por dia já é suficiente. O objetivo não é ser perfeita, é começar a enxergar o seu próprio padrão.</td></tr>
+      <tr><td><b>2</b></td><td>Sono</td><td>Fixe um horário de dormir e acordar, mesmo no fim de semana. Note se os sintomas de sono mudam ao longo da semana — pequenas variações já contam como informação.</td></tr>
+      <tr><td><b>3</b></td><td>Rotina</td><td>Reduza cafeína/álcool à noite por alguns dias e observe se o calor/suor muda. Se notar alguma diferença, guarde essa observação — é justamente esse tipo de detalhe que ajuda o médico a entender seu caso.</td></tr>
+      <tr><td><b>4</b></td><td>Consulta</td><td>Reúna suas anotações das 3 semanas anteriores e leve junto com o checklist da página 6 pra sua consulta. Chegar com isso organizado já coloca você um passo à frente na conversa.</td></tr>
     </table>
+    <div class="support-line">Lembre-se: você não precisa fazer tudo perfeito. Uma semana incompleta ainda conta.</div>
     <div class="page-foot"><span>criandoinfoproduto</span><span>5/7</span></div>
   </div>
 
@@ -1094,6 +1171,10 @@ function buildGuiaHTML(){
       <div class="faq-item"><div class="q"><span class="qm">?</span>Preciso de reposição hormonal?</div><p class="a">Essa decisão é só do seu médico, caso a caso. Este guia não recomenda tratamento — ele te ajuda a chegar organizada pra essa conversa.</p></div>
       <div class="faq-item"><div class="q"><span class="qm">?</span>Os sintomas vão piorar?</div><p class="a">Variam muito de pessoa pra pessoa. Alguns sintomas tendem a se intensificar antes de estabilizar — por isso registrar o padrão ajuda tanto.</p></div>
       <div class="faq-item"><div class="q"><span class="qm">?</span>Isso pode ser outra coisa, não hormonal?</div><p class="a">Sim — por isso o checklist abaixo existe: é pra investigar com seu médico, não pra concluir sozinha.</p></div>
+      <div class="faq-item"><div class="q"><span class="qm">?</span>Exercício físico realmente ajuda?</div><p class="a">Sim, principalmente pra sono, humor e saúde óssea — não precisa ser intenso, começar com caminhadas curtas já faz diferença.</p></div>
+      <div class="faq-item"><div class="q"><span class="qm">?</span>Minha alimentação influencia os sintomas?</div><p class="a">Pode influenciar calor, energia e sono — mas não existe dieta milagrosa; pequenos ajustes sustentáveis valem mais que restrição.</p></div>
+      <div class="faq-item"><div class="q"><span class="qm">?</span>Isso afeta minha vida sexual ou meu relacionamento?</div><p class="a">Pode, principalmente por secura íntima ou queda de libido — é um assunto válido pra levar ao médico, sem vergonha nenhuma.</p></div>
+      <div class="faq-item"><div class="q"><span class="qm">?</span>É hereditário? Minha mãe também passou por isso?</div><p class="a">A idade e alguns padrões podem ter semelhança familiar, mas cada corpo segue o seu próprio ritmo — não é uma regra fixa.</p></div>
     </div>
     <div class="eyebrow" style="margin-top:18px">Para sua consulta médica</div>
     <h3 style="font-size:15px">Checklist do que perguntar</h3>
@@ -1106,6 +1187,12 @@ function buildGuiaHTML(){
     <h2>Obrigada por se conhecer um pouco melhor hoje 🌿</h2>
     <p>Guardar este guia e revisá-lo antes da sua consulta já é um passo real.${state.interesse && state.interesse!=="Não usaria" ? ' Se um dia você quiser acompanhar esse padrão automaticamente, toda semana, avisamos assim que estiver pronto.' : ''}</p>
     ${closingCtaHTML}
+    ${desejoQuoteHTML ? `<div style="text-align:left; width:100%">${desejoQuoteHTML}</div>` : ""}
+    <ul class="affirm" style="text-align:left; width:100%">
+      <li>Seu corpo não está te traindo — está te avisando.</li>
+      <li>Você não precisa ter todas as respostas hoje.</li>
+      <li>Cuidar de si mesma começando por entender já é um passo e tanto.</li>
+    </ul>
     <div class="disclaimer" style="margin-top:26px; text-align:left">
       <b>Isso não é um diagnóstico.</b> Este guia organiza o que você mesma relatou, combinado com informação geral sobre a transição hormonal. Nenhuma informação aqui substitui avaliação médica.
     </div>
