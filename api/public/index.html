@@ -125,6 +125,23 @@
   .thanks-icon{font-size:44px;}
   .footprint{font-size:12px; color:var(--sub); text-align:center; margin-top:10px;}
 </style>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1008192215565838');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1008192215565838&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
 </head>
 <body>
 
@@ -1119,6 +1136,7 @@ let __respostaEnviada = false;
 async function enviarResposta(){
   if(__respostaEnviada) return; // evita duplicar o envio se a tela for revisitada
   __respostaEnviada = true;
+  if(typeof fbq === 'function') fbq('track', 'Lead');
 
   const resumo = `${document.getElementById("profileBadge").textContent} — ${document.getElementById("profileTitle").textContent}`;
   const respostasResumo = state.sintomas.join(", ") || "nenhum sintoma marcado";
