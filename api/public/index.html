@@ -630,12 +630,12 @@ let history_ = [];
 
 function screenEl(name){ return document.querySelector(`[data-screen="${name}"]`); }
 
-function logEvento(tela){
+function logEvento(tela, evento){
   if(!CONFIG.EVENT_ENDPOINT) return;
   fetch(CONFIG.EVENT_ENDPOINT, {
     method: "POST",
     headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ sessao_id: sessaoId, quiz_nome: CONFIG.QUIZ_NOME, tela, evento: "tela_vista" })
+    body: JSON.stringify({ sessao_id: sessaoId, quiz_nome: CONFIG.QUIZ_NOME, tela, evento: evento || "tela_vista" })
   }).catch(()=>{ /* fire-and-forget — não bloqueia a navegação se falhar */ });
 }
 
@@ -1207,6 +1207,8 @@ function buildGuiaHTML(){
 }
 
 document.getElementById("btnDownloadGuia").addEventListener("click", ()=>{
+  logEvento('thanks', 'guia_baixado');
+  if(typeof fbq === 'function') fbq('trackCustom', 'GuiaBaixado');
   const html = buildGuiaHTML();
   const blob = new Blob([html], {type: "text/html"});
   const url = URL.createObjectURL(blob);
