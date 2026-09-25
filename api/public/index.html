@@ -1221,11 +1221,16 @@ document.getElementById("btnDownloadGuia").addEventListener("click", ()=>{
   setTimeout(()=>URL.revokeObjectURL(url), 2000);
 });
 
+const INTERESSES_PAGOS = ["Pagaria uma vez, ~R$17,90", "Pagaria uma vez, ~R$19,90", "Pagaria assinatura mensal pequena"];
+
 let __respostaEnviada = false;
 async function enviarResposta(){
   if(__respostaEnviada) return; // evita duplicar o envio se a tela for revisitada
   __respostaEnviada = true;
-  if(typeof fbq === 'function') fbq('track', 'Lead');
+  if(typeof fbq === 'function'){
+    fbq('track', 'Contact'); // todo mundo que termina o quiz, sinal amplo
+    if(INTERESSES_PAGOS.includes(state.interesse)) fbq('track', 'Lead'); // só quem sinalizou disposição real de pagar — sinal qualificado
+  }
 
   const resumo = `${document.getElementById("profileBadge").textContent} — ${document.getElementById("profileTitle").textContent}`;
   const respostasResumo = state.sintomas.join(", ") || "nenhum sintoma marcado";
