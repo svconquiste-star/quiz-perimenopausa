@@ -289,7 +289,18 @@ src="https://www.facebook.com/tr?id=1008192215565838&ev=PageView&noscript=1"
         <label class="opt" data-value="Ciclo irregular"><span class="radiodot"></span><span>Ciclo irregular</span></label>
         <label class="opt" data-value="Vida íntima"><span class="radiodot"></span><span>Vida íntima</span></label>
       </div>
-      <div class="nav-row"><button class="cta" id="btn-incomodo" disabled onclick="goTo('incomodo-detalhe')">Continuar</button></div>
+      <div class="nav-row"><button class="cta" id="btn-incomodo" disabled onclick="goTo('incomodo-eco')">Continuar</button></div>
+    </section>
+
+    <section class="screen" data-screen="incomodo-eco">
+      <div class="intersti">
+        <div class="art">🔎</div>
+        <div class="body">
+          <h2 id="incomodoEcoTitle">Faz todo sentido você ter marcado isso.</h2>
+          <p>Isso quase nunca vem sozinho — geralmente puxa outras coisas junto (sono, humor, disposição...). Nas próximas perguntas a gente vai destrinchar isso com você, pra ver como essas peças se conectam no seu caso.</p>
+        </div>
+      </div>
+      <div class="nav-row"><button class="cta" onclick="goTo('incomodo-detalhe')">Continuar</button></div>
     </section>
 
     <section class="screen" data-screen="incomodo-detalhe">
@@ -348,7 +359,36 @@ src="https://www.facebook.com/tr?id=1008192215565838&ev=PageView&noscript=1"
         <label class="opt" data-value="Uso excessivo de celular / redes sociais"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Uso excessivo de celular / redes sociais</span></label>
       </div>
       <div><span class="field-label">Quer contar com suas palavras?</span><textarea id="inputOutrasDoresOutro" placeholder="Descreva outra dor ou problema que não está na lista — pode ser qualquer coisa" style="width:100%; min-height:90px; padding:15px 16px; border-radius:14px; border:1.5px solid var(--border); font-size:15px; font-family:inherit; background:#fff; resize:vertical;"></textarea></div>
-      <div class="nav-row"><button class="cta" onclick="saveOutrasDores(); goTo('inter1b')">Continuar</button></div>
+      <div class="nav-row"><button class="cta" onclick="saveOutrasDores(); irParaDoresPrioridade()">Continuar</button></div>
+    </section>
+
+    <section class="screen" data-screen="dores-prioridade">
+      <div class="eyebrow">Pra fechar esse assunto</div>
+      <h2 class="q-title">Se você tivesse que escolher só UMA coisa dessa lista pra resolver primeiro, qual seria?</h2>
+      <p style="font-size:13.5px;color:var(--sub);margin-top:-8px">Toque na que pesa mais agora.</p>
+      <div class="options" data-kind="single" data-field="outrasDoresPrioridade">
+        <label class="opt" data-preset="1" data-value="Dinheiro / organização financeira"><span class="radiodot"></span><span>Dinheiro / organização financeira</span></label>
+        <label class="opt" data-preset="1" data-value="Falta de tempo / produtividade"><span class="radiodot"></span><span>Falta de tempo / produtividade</span></label>
+        <label class="opt" data-preset="1" data-value="Relacionamento (parceiro, família)"><span class="radiodot"></span><span>Relacionamento (parceiro, família)</span></label>
+        <label class="opt" data-preset="1" data-value="Filhos / cuidado com outras pessoas"><span class="radiodot"></span><span>Filhos / cuidado com outras pessoas</span></label>
+        <label class="opt" data-preset="1" data-value="Trabalho / carreira"><span class="radiodot"></span><span>Trabalho / carreira</span></label>
+        <label class="opt" data-preset="1" data-value="Ansiedade ou saúde mental (fora do hormonal)"><span class="radiodot"></span><span>Ansiedade ou saúde mental (fora do hormonal)</span></label>
+        <label class="opt" data-preset="1" data-value="Sono ruim (mesmo fora da perimenopausa)"><span class="radiodot"></span><span>Sono ruim (mesmo fora da perimenopausa)</span></label>
+        <label class="opt" data-preset="1" data-value="Corpo / autoestima (não relacionado a hormônio)"><span class="radiodot"></span><span>Corpo / autoestima (não relacionado a hormônio)</span></label>
+        <label class="opt" data-preset="1" data-value="Alimentação ou rotina alimentar"><span class="radiodot"></span><span>Alimentação ou rotina alimentar</span></label>
+        <label class="opt" data-preset="1" data-value="Organização da casa / rotina no geral"><span class="radiodot"></span><span>Organização da casa / rotina no geral</span></label>
+        <label class="opt" data-preset="1" data-value="Uso excessivo de celular / redes sociais"><span class="radiodot"></span><span>Uso excessivo de celular / redes sociais</span></label>
+        <label class="opt" data-value="Nenhuma, é tudo junto mesmo"><span class="radiodot"></span><span>Nenhuma, sinceramente é tudo junto mesmo</span></label>
+      </div>
+      <div class="nav-row"><button class="cta" id="btn-dores-prioridade" disabled onclick="goTo('retrato-parcial')">Continuar</button></div>
+    </section>
+
+    <section class="screen" data-screen="retrato-parcial">
+      <h2 class="q-title" style="font-size:20px">Seu retrato até aqui</h2>
+      <p style="font-size:13.5px;color:var(--sub);margin-top:-8px">Juntando o que você contou nas últimas perguntas.</p>
+      <div class="result-card" id="retratoParcialCard"></div>
+      <p style="font-size:14px;color:var(--sub);margin-top:14px">Ainda faltam algumas perguntas sobre seu padrão e sua segurança — elas vão ajudar a entender se essas coisas estão conectadas, e como.</p>
+      <div class="nav-row"><button class="cta" onclick="goTo('inter1b')">Continuar</button></div>
     </section>
 
     <section class="screen" data-screen="inter1b">
@@ -525,7 +565,19 @@ src="https://www.facebook.com/tr?id=1008192215565838&ev=PageView&noscript=1"
         <label class="opt" data-value="Alertas antecipando quando um sintoma pode piorar"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Alertas antecipando quando um sintoma pode piorar</span></label>
         <label class="opt" data-value="Comunidade — trocar com outras mulheres passando por isso"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Comunidade — trocar com outras mulheres passando por isso</span></label>
       </div>
-      <div class="nav-row"><button class="cta" onclick="goTo('app-frequencia')">Continuar</button></div>
+      <div class="nav-row"><button class="cta" onclick="goTo('app-cenario')">Continuar</button></div>
+    </section>
+
+    <section class="screen" data-screen="app-cenario">
+      <div class="eyebrow">Sobre o futuro app</div>
+      <h2 class="q-title" id="appCenarioTitle">Imagina: é uma manhã difícil, isso apareceu de novo, e o app te mostra algo pensado especialmente pro que você sente logo na tela inicial. O que isso faria por você?</h2>
+      <div class="options" data-kind="single" data-field="appCenarioSentimento">
+        <label class="opt" data-value="Mais no controle"><span class="radiodot"></span><span>Eu me sentiria mais no controle</span></label>
+        <label class="opt" data-value="Aliviada"><span class="radiodot"></span><span>Eu me sentiria aliviada, com um caminho mais claro</span></label>
+        <label class="opt" data-value="Menos sozinha"><span class="radiodot"></span><span>Eu me sentiria menos sozinha nisso</span></label>
+        <label class="opt" data-value="Teria que testar"><span class="radiodot"></span><span>Não sei dizer, teria que ver na prática</span></label>
+      </div>
+      <div class="nav-row"><button class="cta" id="btn-app-cenario" disabled onclick="goTo('app-frequencia')">Continuar</button></div>
     </section>
 
     <section class="screen" data-screen="app-frequencia">
@@ -537,12 +589,21 @@ src="https://www.facebook.com/tr?id=1008192215565838&ev=PageView&noscript=1"
         <label class="opt" data-value="Só quando sentir algo diferente"><span class="radiodot"></span><span>Só quando sentir algo diferente</span></label>
         <label class="opt" data-value="Não sei dizer"><span class="radiodot"></span><span>Não sei dizer</span></label>
       </div>
-      <div class="nav-row"><button class="cta" id="btn-app-frequencia" disabled onclick="goTo('app-desejo-livre')">Continuar</button></div>
+      <div class="nav-row"><button class="cta" id="btn-app-frequencia" disabled onclick="goTo('app-preview')">Continuar</button></div>
+    </section>
+
+    <section class="screen" data-screen="app-preview">
+      <div class="eyebrow">Sobre o futuro app</div>
+      <h2 class="q-title">Se esse app existisse, seria mais ou menos assim</h2>
+      <p style="font-size:13.5px;color:var(--sub);margin-top:-8px">Feito com base no que você respondeu — nada genérico.</p>
+      <div class="result-card" id="appPreviewCard"></div>
+      <p style="font-size:12.5px;color:var(--sub);margin-top:12px">Ilustrativo — o app ainda não existe. Sua resposta na próxima pergunta ajuda a decidir se ele sai do papel.</p>
+      <div class="nav-row"><button class="cta" onclick="goTo('app-desejo-livre')">Continuar</button></div>
     </section>
 
     <section class="screen" data-screen="app-desejo-livre">
       <div class="eyebrow">Sobre o futuro app</div>
-      <h2 class="q-title">O que faria você abrir esse app até nos dias em que está tudo bem?</h2>
+      <h2 class="q-title">Essa seria a SUA versão dele. O que faria você abrir até nos dias em que está tudo bem?</h2>
       <p style="font-size:13.5px;color:var(--sub);margin-top:-8px">Opcional — pensa no que faria isso virar hábito, não só uma ferramenta de crise.</p>
       <textarea id="inputAppDesejoLivre" placeholder="Ex: se ele me mostrasse algo interessante sobre mim mesma, não só quando algo está errado..." style="width:100%; min-height:110px; padding:15px 16px; border-radius:14px; border:1.5px solid var(--border); font-size:15px; font-family:inherit; background:#fff; resize:vertical;"></textarea>
       <div class="nav-row">
@@ -603,29 +664,42 @@ const CONFIG = {
 };
 
 const order = ["intro","idade","ciclo","inter1","sintomas","inter2","intimo","tempo","incomodo",
-  "incomodo-detalhe","solucoes-tentadas","desejo-produto","outras-dores","inter1b",
+  "incomodo-eco",
+  "incomodo-detalhe","solucoes-tentadas","desejo-produto","outras-dores",
+  "dores-prioridade","retrato-parcial",
+  "inter1b",
   "bloqueadores","medico","motivacao","inter3",
   "medicamentos","gravidez","menopausa-status","condicoes","inter4",
-  "captura","processing","result","app-formato","app-frequencia","app-desejo-livre","interesse","thanks"];
+  "captura","processing","result",
+  "app-formato","app-cenario","app-frequencia","app-preview","app-desejo-livre",
+  "interesse","thanks"];
 
 const sections = {
   intro:0, idade:1, ciclo:1, inter1:1, sintomas:1, inter2:1, intimo:1, tempo:1, incomodo:1,
-  "incomodo-detalhe":1, "solucoes-tentadas":1, "desejo-produto":1, "outras-dores":1, "inter1b":1,
+  "incomodo-eco":1,
+  "incomodo-detalhe":1, "solucoes-tentadas":1, "desejo-produto":1, "outras-dores":1,
+  "dores-prioridade":1, "retrato-parcial":1,
+  "inter1b":1,
   bloqueadores:2, medico:2, motivacao:2, inter3:2,
   medicamentos:3, gravidez:3, "menopausa-status":3, condicoes:3, inter4:3,
-  captura:4, processing:4, result:4, "app-formato":4, "app-frequencia":4, "app-desejo-livre":4, interesse:4, thanks:4
+  captura:4, processing:4, result:4,
+  "app-formato":4, "app-cenario":4, "app-frequencia":4, "app-preview":4, "app-desejo-livre":4,
+  interesse:4, thanks:4
 };
 const sectionLabels = {1:"SEU PERFIL", 2:"SEUS PADRÕES", 3:"SAÚDE E SEGURANÇA", 4:"QUASE LÁ"};
-// 13 telas na seção "Seu Perfil" (a tela "intro" é à parte, sem barra de progresso — não conta aqui;
-// inclui a tela "outras dores" fora do tema hormonal + o interstitial de apoio inter1b),
-// 4 na "Seus Padrões", 5 na "Saúde e Segurança" (sem a tela de consentimento, removida a pedido), 8 na "Quase Lá" (com as 3 novas telas de expectativa de app).
-// Total: 1 (intro) + 13 + 4 + 5 + 8 = 31 telas.
-const sectionScreenCount = {1:13, 2:4, 3:5, 4:8};
+// 16 telas na seção "Seu Perfil" (a tela "intro" é à parte, sem barra de progresso — não conta aqui;
+// inclui a tela "outras dores" fora do tema hormonal + os interstitials/reflexões de apoio: incomodo-eco,
+// dores-prioridade, retrato-parcial, inter1b),
+// 4 na "Seus Padrões", 5 na "Saúde e Segurança" (sem a tela de consentimento, removida a pedido),
+// 10 na "Quase Lá" (com as telas de expectativa de app, incluindo app-cenario e app-preview).
+// Total: 1 (intro) + 16 + 4 + 5 + 10 = 36 telas.
+const sectionScreenCount = {1:16, 2:4, 3:5, 4:10};
 
 const state = { idade:null, ciclo:null, sintomas:[], tempo:null, incomodo:null, medico:null,
   motivacao:[], consentimentoSaude:null, medicamentos:null, gravidez:null, menopausaStatus:null, condicoes:[], interesse:null,
   incomodoDetalhe:"", solucoesTentadas:[], solucoesTentadasOutro:"", desejoProduto:"",
-  outrasDores:[], outrasDoresOutro:"", appFormato:[], appFrequencia:null, appDesejoLivre:"",
+  outrasDores:[], outrasDoresOutro:"", outrasDoresPrioridade:null,
+  appFormato:[], appCenarioSentimento:null, appFrequencia:null, appDesejoLivre:"",
   nome:"", email:"" };
 
 // id de sessão só pra correlacionar eventos de funil (não é dado de identificação pessoal)
@@ -675,9 +749,21 @@ function render(isBack){
   }
   window.scrollTo(0,0);
   if(current==="bloqueadores") renderBloqueadores();
-  if(current==="incomodo-detalhe" || current==="desejo-produto" || current==="interesse" || current==="app-formato") updateIncomodoRefs();
+  if(current==="dores-prioridade") renderDoresPrioridade();
+  if(current==="retrato-parcial") renderRetratoParcial();
+  if(current==="app-preview") renderAppPreview();
+  if(current==="incomodo-detalhe" || current==="desejo-produto" || current==="interesse" || current==="app-formato" || current==="incomodo-eco" || current==="app-cenario") updateIncomodoRefs();
   if(current==="thanks") enviarResposta();
 }
+
+const APP_FORMATO_FRASES = {
+  "Lembrete diário pra registrar como estou me sentindo": "um lembrete carinhoso pra registrar como você está",
+  "Gráfico/histórico visual dos meus sintomas ao longo do tempo": "um gráfico mostrando que isso é um padrão, não um dia ruim aleatório",
+  "Dicas personalizadas com base no meu padrão": "uma dica pensada especificamente pro que você está sentindo agora",
+  "Um resumo pronto pra levar/exportar pra consulta médica": "um resumo já pronto pra você levar ao médico",
+  "Alertas antecipando quando um sintoma pode piorar": "um aviso de que esse período mais difícil já era esperado",
+  "Comunidade — trocar com outras mulheres passando por isso": "um espaço com outras mulheres sentindo a mesma coisa"
+};
 
 function updateIncomodoRefs(){
   const inc = state.incomodo ? state.incomodo.toLowerCase() : "o que você sente";
@@ -695,6 +781,13 @@ function updateIncomodoRefs(){
     } else {
       t4.style.display = "none";
     }
+  }
+  const t5 = document.getElementById("incomodoEcoTitle");
+  if(t5) t5.textContent = `"${state.incomodo || 'isso'}." Faz todo sentido você ter marcado isso.`;
+  const t6 = document.getElementById("appCenarioTitle");
+  if(t6){
+    const frase = APP_FORMATO_FRASES[state.appFormato[0]] || "algo pensado especialmente pro que você sente";
+    t6.textContent = `Imagina: é uma manhã difícil, ${inc} apareceu de novo, e o app te mostra ${frase} logo na tela inicial. O que isso faria por você?`;
   }
 }
 
@@ -714,7 +807,8 @@ document.querySelectorAll('.options[data-kind="single"]').forEach(group=>{
 function screenIdForField(field){
   const map = {idade:"idade", ciclo:"ciclo", tempo:"tempo", incomodo:"incomodo", medico:"medico",
     medicamentos:"medicamentos", gravidez:"gravidez", menopausaStatus:"menopausa-status",
-    appFrequencia:"app-frequencia", interesse:"interesse"};
+    appFrequencia:"app-frequencia", interesse:"interesse",
+    outrasDoresPrioridade:"dores-prioridade", appCenarioSentimento:"app-cenario"};
   return map[field] || field;
 }
 
@@ -751,6 +845,63 @@ function renderBloqueadores(){
     const pct = Math.round((v/total)*100);
     return `<div class="bar-row"><div class="lbl"><span>${labels[k]}</span><span>${pct}%</span></div><div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div></div>`;
   }).join("");
+}
+
+function renderDoresPrioridade(){
+  const group = document.querySelector('.options[data-field="outrasDoresPrioridade"]');
+  if(!group) return;
+  group.querySelectorAll('.opt[data-preset="1"]').forEach(opt=>{
+    opt.style.display = state.outrasDores.includes(opt.dataset.value) ? "" : "none";
+  });
+  const prevOutro = group.querySelector('.opt[data-outro="1"]');
+  if(prevOutro) prevOutro.remove();
+  if(state.outrasDoresOutro){
+    const nenhuma = group.querySelector('[data-value="Nenhuma, é tudo junto mesmo"]');
+    const label = document.createElement('label');
+    label.className = 'opt';
+    label.dataset.outro = "1";
+    label.dataset.value = state.outrasDoresOutro;
+    const dot = document.createElement('span'); dot.className = 'radiodot';
+    const span = document.createElement('span'); span.textContent = state.outrasDoresOutro;
+    label.appendChild(dot); label.appendChild(span);
+    label.addEventListener('click', ()=>{
+      group.querySelectorAll('.opt').forEach(o=>o.classList.remove('selected'));
+      label.classList.add('selected');
+      state.outrasDoresPrioridade = label.dataset.value;
+      const btn = document.getElementById('btn-dores-prioridade');
+      if(btn) btn.disabled = false;
+    });
+    group.insertBefore(label, nenhuma);
+  }
+}
+
+function irParaDoresPrioridade(){
+  if((state.outrasDores && state.outrasDores.length>0) || state.outrasDoresOutro) goTo('dores-prioridade');
+  else goTo('retrato-parcial');
+}
+
+function renderRetratoParcial(){
+  const card = document.getElementById("retratoParcialCard");
+  const tempoLabels = {"0":"menos de 1 mês","1":"alguns meses","2":"mais de 1 ano"};
+  const inc = state.incomodo || "o que você sente";
+  let html = `<p style="font-size:14px;margin:0 0 10px">O que mais te incomoda hoje: <strong>${inc}</strong></p>`;
+  if(state.tempo!==null && tempoLabels[state.tempo]){
+    html += `<p style="font-size:14px;margin:0 0 10px">Há quanto tempo: <strong>${tempoLabels[state.tempo]}</strong></p>`;
+  }
+  if(state.outrasDoresPrioridade && state.outrasDoresPrioridade!=="Nenhuma, é tudo junto mesmo"){
+    html += `<p style="font-size:14px;margin:0">E ainda pesa no dia a dia: <strong>${state.outrasDoresPrioridade}</strong></p>`;
+  }
+  card.innerHTML = html;
+}
+
+function renderAppPreview(){
+  const card = document.getElementById("appPreviewCard");
+  const inc = state.incomodo || "o que você sente";
+  const itens = state.appFormato.slice(0,3);
+  const corpo = itens.length>0
+    ? `<ul style="margin:8px 0 0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:6px">${itens.map(i=>`<li style="font-size:14px">✓ ${i}</li>`).join("")}</ul>`
+    : `<p style="font-size:14px;margin:8px 0 0">Um espaço pensado só pro que te incomoda: ${inc}.</p>`;
+  card.innerHTML = `<h3>Seu acompanhamento · foco: ${inc}</h3>${corpo}`;
 }
 
 function handleGravidez(){
