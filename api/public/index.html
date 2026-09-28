@@ -59,6 +59,7 @@
   button.cta:disabled{background:#D5D5EE; color:#9C9CC4; cursor:not-allowed;}
   button.cta.ok{background:var(--ok);}
   a.skip{display:block; text-align:center; font-size:13px; color:var(--primary); font-weight:600; margin-top:10px; cursor:pointer;}
+  a.skip.skip-guide{border:1.5px solid var(--primary); border-radius:99px; padding:12px 18px; margin-top:12px; background:#fff;}
 
   /* interstitial */
   .intersti{margin:-22px -20px 0; display:flex; flex-direction:column;}
@@ -168,9 +169,9 @@ src="https://www.facebook.com/tr?id=1008192215565838&ev=PageView&noscript=1"
       <div class="hero">
         <div class="kicker">Quiz gratuito</div>
         <h1>Tenho medo de estar na PERIMENOPAUSA e ninguém me avisou.</h1>
-        <p>Responda ao quiz e descubra se os sintomas que você sente seguem um padrão hormonal. No final, você recebe um guia personalizado, de graça.</p>
+        <p>Em poucos minutos, você organiza o que sente em um padrão que faz sentido — e sai com um guia personalizado só seu, sem custo nenhum.</p>
         <div class="hero-meta">
-          <div><b>~3 min</b>de duração</div>
+          <div><b>Rápido</b>e fácil</div>
           <div><b>100%</b>gratuito</div>
           <div><b>0</b>diagnóstico — só clareza</div>
         </div>
@@ -355,7 +356,7 @@ src="https://www.facebook.com/tr?id=1008192215565838&ev=PageView&noscript=1"
         <div class="art">💬</div>
         <div class="body">
           <h2>Você já respondeu bastante — falta pouco</h2>
-          <p>Cada resposta sua ajuda a gente a entender não só seus sintomas, mas o que realmente faria diferença na sua vida. Vamos terminar de montar seu retrato completo.</p>
+          <p>Cada resposta sua ajuda a gente a entender não só seus sintomas, mas o que realmente faria diferença na sua vida. A parte mais difícil já passou — o que vem agora é rápido.</p>
         </div>
       </div>
       <div class="nav-row"><button class="cta" onclick="goTo('bloqueadores')">Continuar</button></div>
@@ -399,7 +400,7 @@ src="https://www.facebook.com/tr?id=1008192215565838&ev=PageView&noscript=1"
         <div class="art">🌱</div>
         <div class="body">
           <h2>Reconhecer o padrão já é o primeiro passo</h2>
-          <p>Só de chegar até aqui e nomear o que você sente, você já está à frente — muita gente passa anos sem conectar os pontos.</p>
+          <p>Só de chegar até aqui e nomear o que você sente, você já está à frente — muita gente passa anos sem conectar os pontos. Faltam só algumas perguntas de segurança antes do seu resultado.</p>
         </div>
       </div>
       <div class="nav-row"><button class="cta" onclick="goTo('medicamentos')">Continuar</button></div>
@@ -465,7 +466,7 @@ src="https://www.facebook.com/tr?id=1008192215565838&ev=PageView&noscript=1"
         <div class="art">🤍</div>
         <div class="body">
           <h2>Você não precisa passar por isso sozinha</h2>
-          <p>Entender o que seu corpo está sinalizando é um passo real — e ter isso organizado facilita muito a conversa com quem pode te ajudar de verdade.</p>
+          <p>Entender o que seu corpo está sinalizando é um passo real — e ter isso organizado facilita muito a conversa com quem pode te ajudar de verdade. Seu resultado está prestes a ficar pronto.</p>
         </div>
       </div>
       <div class="nav-row"><button class="cta" onclick="goTo('captura')">Continuar</button></div>
@@ -508,12 +509,13 @@ src="https://www.facebook.com/tr?id=1008192215565838&ev=PageView&noscript=1"
       <div class="result-card" style="display:none"><h3>Checklist para levar ao médico</h3><ul class="check-med" id="checklistMed"></ul></div>
 
       <div class="privacy-note">Isso não é um diagnóstico — é uma organização das suas respostas para te ajudar a conversar com seu médico.</div>
-      <div class="nav-row"><button class="cta" onclick="goTo('app-formato')">Continuar</button></div>
+      <div class="nav-row"><button class="cta" onclick="goTo('app-formato')">Ver o que mais pode te ajudar</button></div>
     </section>
 
     <section class="screen" data-screen="app-formato">
       <div class="eyebrow">Sobre o futuro app</div>
       <h2 class="q-title">Se existisse um app pra te ajudar com isso, o que seria mais importante pra você?</h2>
+      <p class="privacy-note" id="appFormatoBridge"></p>
       <p style="font-size:13.5px;color:var(--sub);margin-top:-8px">Marque quantos quiser.</p>
       <div class="options" data-kind="multi" data-field="appFormato">
         <label class="opt" data-value="Lembrete diário pra registrar como estou me sentindo"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span><span>Lembrete diário pra registrar como estou me sentindo</span></label>
@@ -554,22 +556,22 @@ src="https://www.facebook.com/tr?id=1008192215565838&ev=PageView&noscript=1"
       <h2 class="q-title" id="interesseTitle">Se existisse um app fazendo esse acompanhamento automaticamente toda semana, você usaria?</h2>
       <p class="privacy-note">Seu guia já está pronto e é grátis de qualquer forma — essa resposta só nos ajuda a decidir se vale a pena criar o app. Sem compromisso nenhum.</p>
       <div class="options" data-kind="single" data-field="interesse">
+        <label class="opt" data-value="Pagaria assinatura mensal pequena"><span class="radiodot"></span><span>Uma assinatura bem pequena por mês, tipo um cafezinho</span></label>
+        <label class="opt" data-value="Pagaria uma vez, ~R$17,90"><span class="radiodot"></span><span>Pagaria uma vez só, por R$17,90 — menos que um lanche</span></label>
+        <label class="opt" data-value="Pagaria uma vez, ~R$19,90"><span class="radiodot"></span><span>Pagaria uma vez só, por R$19,90 — menos que um app de streaming por um mês</span></label>
         <label class="opt" data-value="Não usaria"><span class="radiodot"></span><span>Não usaria</span></label>
-        <label class="opt" data-value="Pagaria uma vez, ~R$17,90"><span class="radiodot"></span><span>Pagaria uma vez, algo em torno de R$17,90</span></label>
-        <label class="opt" data-value="Pagaria uma vez, ~R$19,90"><span class="radiodot"></span><span>Pagaria uma vez, algo em torno de R$19,90</span></label>
-        <label class="opt" data-value="Pagaria assinatura mensal pequena"><span class="radiodot"></span><span>Pagaria uma assinatura mensal pequena</span></label>
       </div>
       <div class="nav-row">
         <button class="cta ok" id="btn-interesse" disabled onclick="goTo('thanks')">Ver meu guia completo</button>
-        <a class="skip" onclick="goTo('thanks')">Prefiro não responder, só quero meu guia</a>
+        <a class="skip skip-guide" onclick="goTo('thanks')">Prefiro não responder, só quero meu guia</a>
       </div>
     </section>
 
     <section class="screen" data-screen="thanks">
       <div style="text-align:center; padding-top:20px;">
         <div class="thanks-icon">🌿</div>
-        <h2>Obrigada por participar!</h2>
-        <p style="color:var(--sub); font-size:14.5px">Seu guia foi preparado.</p>
+        <h2>Pronto — seu retrato está completo.</h2>
+        <p style="color:var(--sub); font-size:14.5px">Seu guia personalizado já está pronto, com tudo o que você compartilhou.</p>
         <button class="cta ok" id="btnDownloadGuia" style="margin-top:10px">Baixar meu guia completo</button>
         <p class="footprint">Obrigada por dedicar alguns minutos a se conhecer melhor.</p>
       </div>
@@ -673,7 +675,7 @@ function render(isBack){
   }
   window.scrollTo(0,0);
   if(current==="bloqueadores") renderBloqueadores();
-  if(current==="incomodo-detalhe" || current==="desejo-produto" || current==="interesse") updateIncomodoRefs();
+  if(current==="incomodo-detalhe" || current==="desejo-produto" || current==="interesse" || current==="app-formato") updateIncomodoRefs();
   if(current==="thanks") enviarResposta();
 }
 
@@ -685,6 +687,15 @@ function updateIncomodoRefs(){
   if(t2) t2.textContent = `Se existisse algo feito sob medida pra ${inc}, o que você gostaria que ele fizesse?`;
   const t3 = document.getElementById("interesseTitle");
   if(t3) t3.textContent = `Se existisse um app fazendo esse acompanhamento automaticamente toda semana — focado especialmente em ${inc} — você usaria?`;
+  const t4 = document.getElementById("appFormatoBridge");
+  if(t4){
+    if(state.incomodo){
+      t4.textContent = `Você disse que o que mais te incomoda hoje é ${inc}. Pensa num app pensado pra isso — o que ele precisaria ter pra valer a pena abrir todo dia?`;
+      t4.style.display = "";
+    } else {
+      t4.style.display = "none";
+    }
+  }
 }
 
 // single-choice
