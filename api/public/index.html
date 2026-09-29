@@ -109,6 +109,18 @@
   .result-card h3{font-size:15.5px; margin-bottom:8px;}
   .sym-tags{display:flex; flex-wrap:wrap; gap:8px;}
   .sym-tag{background:var(--primary-light); color:var(--primary-dark); font-size:12.5px; padding:5px 12px; border-radius:99px; font-weight:600;}
+
+  /* app preview mock */
+  .app-mock{background:var(--card); border:1px solid var(--border); border-radius:20px; overflow:hidden; max-width:320px; margin:0 auto; box-shadow:0 8px 24px rgba(0,0,0,.06);}
+  .app-mock-header{background:var(--primary); color:#fff; padding:16px 18px; display:flex; align-items:center; gap:10px; font-weight:700; font-size:15px;}
+  .app-mock-header .icon{font-size:18px;}
+  .app-mock-body{padding:10px 6px;}
+  .app-mock-row{display:flex; align-items:center; gap:12px; padding:12px 12px; border-radius:12px;}
+  .app-mock-row + .app-mock-row{border-top:1px solid var(--border);}
+  .app-mock-icon{width:34px; height:34px; border-radius:10px; background:var(--primary-light); display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0;}
+  .app-mock-row span.txt{font-size:13.5px; font-weight:600; flex:1; line-height:1.3;}
+  .app-mock-row .chevron{color:var(--sub); font-size:14px;}
+  .app-mock-home-bar{width:120px; height:4px; background:var(--border); border-radius:99px; margin:14px auto 12px;}
   ul.check-med{margin:0; padding-left:18px; font-size:13.5px;}
   ul.check-med li{margin-bottom:6px;}
 
@@ -596,8 +608,8 @@ src="https://www.facebook.com/tr?id=1008192215565838&ev=PageView&noscript=1"
       <div class="eyebrow">Sobre o futuro app</div>
       <h2 class="q-title">Se esse app existisse, seria mais ou menos assim</h2>
       <p style="font-size:13.5px;color:var(--sub);margin-top:-8px">Feito com base no que você respondeu — nada genérico.</p>
-      <div class="result-card" id="appPreviewCard"></div>
-      <p style="font-size:12.5px;color:var(--sub);margin-top:12px">Ilustrativo — o app ainda não existe. Sua resposta na próxima pergunta ajuda a decidir se ele sai do papel.</p>
+      <div class="app-mock" id="appPreviewCard"></div>
+      <p style="font-size:12.5px;color:var(--sub);margin-top:12px;text-align:center">Ilustrativo — o app ainda não existe. Sua resposta na próxima pergunta ajuda a decidir se ele sai do papel.</p>
       <div class="nav-row"><button class="cta" onclick="goTo('app-desejo-livre')">Continuar</button></div>
     </section>
 
@@ -617,14 +629,13 @@ src="https://www.facebook.com/tr?id=1008192215565838&ev=PageView&noscript=1"
       <h2 class="q-title" id="interesseTitle">Se existisse um app fazendo esse acompanhamento automaticamente toda semana, você usaria?</h2>
       <p class="privacy-note">Seu guia já está pronto e é grátis de qualquer forma — essa resposta só nos ajuda a decidir se vale a pena criar o app. Sem compromisso nenhum.</p>
       <div class="options" data-kind="single" data-field="interesse">
-        <label class="opt" data-value="Pagaria assinatura mensal pequena"><span class="radiodot"></span><span>Uma assinatura bem pequena por mês, tipo um cafezinho</span></label>
+        <label class="opt" data-value="Pagaria assinatura mensal pequena"><span class="radiodot"></span><span>Uma assinatura de R$27,90/mês, tipo um cafezinho</span></label>
         <label class="opt" data-value="Pagaria uma vez, ~R$17,90"><span class="radiodot"></span><span>Pagaria uma vez só, por R$17,90 — menos que um lanche</span></label>
         <label class="opt" data-value="Pagaria uma vez, ~R$19,90"><span class="radiodot"></span><span>Pagaria uma vez só, por R$19,90 — menos que um app de streaming por um mês</span></label>
         <label class="opt" data-value="Não usaria"><span class="radiodot"></span><span>Não usaria</span></label>
       </div>
       <div class="nav-row">
         <button class="cta ok" id="btn-interesse" disabled onclick="goTo('thanks')">Ver meu guia completo</button>
-        <a class="skip skip-guide" onclick="goTo('thanks')">Prefiro não responder, só quero meu guia</a>
       </div>
     </section>
 
@@ -894,14 +905,27 @@ function renderRetratoParcial(){
   card.innerHTML = html;
 }
 
+const APP_FORMATO_ICONES = {
+  "Lembrete diário pra registrar como estou me sentindo": "🔔",
+  "Gráfico/histórico visual dos meus sintomas ao longo do tempo": "📈",
+  "Dicas personalizadas com base no meu padrão": "💡",
+  "Um resumo pronto pra levar/exportar pra consulta médica": "📋",
+  "Alertas antecipando quando um sintoma pode piorar": "⚠️",
+  "Comunidade — trocar com outras mulheres passando por isso": "👥"
+};
+
 function renderAppPreview(){
   const card = document.getElementById("appPreviewCard");
   const inc = state.incomodo || "o que você sente";
   const itens = state.appFormato.slice(0,3);
-  const corpo = itens.length>0
-    ? `<ul style="margin:8px 0 0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:6px">${itens.map(i=>`<li style="font-size:14px">✓ ${i}</li>`).join("")}</ul>`
-    : `<p style="font-size:14px;margin:8px 0 0">Um espaço pensado só pro que te incomoda: ${inc}.</p>`;
-  card.innerHTML = `<h3>Seu acompanhamento · foco: ${inc}</h3>${corpo}`;
+  const linhas = itens.length>0
+    ? itens.map(i=>`<div class="app-mock-row"><span class="app-mock-icon">${APP_FORMATO_ICONES[i]||"✓"}</span><span class="txt">${i}</span><span class="chevron">›</span></div>`).join("")
+    : `<div class="app-mock-row"><span class="app-mock-icon">✨</span><span class="txt">Um espaço pensado só pro que te incomoda: ${inc}.</span></div>`;
+  card.innerHTML = `
+    <div class="app-mock-header"><span class="icon">📱</span><span>Seu acompanhamento · ${inc}</span></div>
+    <div class="app-mock-body">${linhas}</div>
+    <div class="app-mock-home-bar"></div>
+  `;
 }
 
 function handleGravidez(){
