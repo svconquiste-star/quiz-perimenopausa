@@ -61,6 +61,15 @@
   a.skip{display:block; text-align:center; font-size:13px; color:var(--primary); font-weight:600; margin-top:10px; cursor:pointer;}
   a.skip.skip-guide{border:1.5px solid var(--primary); border-radius:99px; padding:12px 18px; margin-top:12px; background:#fff;}
 
+  /* share block */
+  .share-block{margin-top:28px; padding:20px 18px; background:var(--card); border:1.5px solid var(--border); border-radius:16px; text-align:center;}
+  .share-title{font-size:15px; font-weight:700; margin:0 0 4px;}
+  .share-sub{font-size:13.5px; color:var(--sub); margin:0 0 16px;}
+  .share-actions{display:flex; flex-direction:column; gap:10px;}
+  .share-btn{display:block; width:100%; font-family:inherit; font-size:14.5px; font-weight:700; border-radius:99px; padding:13px 18px; cursor:pointer; text-decoration:none; text-align:center; box-sizing:border-box;}
+  .share-btn.whatsapp{background:#25D366; color:#fff; border:none;}
+  .share-btn.copy{background:#fff; color:var(--primary); border:1.5px solid var(--primary);}
+
   /* interstitial */
   .intersti{margin:-22px -20px 0; display:flex; flex-direction:column;}
   .intersti .art{height:220px; background:linear-gradient(135deg,var(--primary),#B3A6F5); display:flex; align-items:center; justify-content:center; font-size:64px;}
@@ -645,6 +654,14 @@ src="https://www.facebook.com/tr?id=1008192215565838&ev=PageView&noscript=1"
         <h2>Pronto — seu retrato está completo.</h2>
         <p style="color:var(--sub); font-size:14.5px">Seu guia personalizado já está pronto, com tudo o que você compartilhou.</p>
         <button class="cta ok" id="btnDownloadGuia" style="margin-top:10px">Baixar meu guia completo</button>
+        <div class="share-block">
+          <p class="share-title">Conhece alguém que também vive isso?</p>
+          <p class="share-sub">Muita gente passa anos sem conectar os sintomas — manda esse quiz pra uma amiga.</p>
+          <div class="share-actions">
+            <a class="share-btn whatsapp" id="btnShareWhatsapp" target="_blank" rel="noopener">Enviar no WhatsApp</a>
+            <button class="share-btn copy" id="btnCopyLink" type="button">Copiar link</button>
+          </div>
+        </div>
         <p class="footprint">Obrigada por dedicar alguns minutos a se conhecer melhor.</p>
       </div>
     </section>
@@ -1409,6 +1426,33 @@ document.getElementById("btnDownloadGuia").addEventListener("click", ()=>{
   a.click();
   document.body.removeChild(a);
   setTimeout(()=>URL.revokeObjectURL(url), 2000);
+});
+
+const SHARE_URL = location.origin + location.pathname;
+const SHARE_TEXT = "Fiz esse teste rápido sobre perimenopausa e achei muito revelador — talvez ajude você também: " + SHARE_URL;
+
+const btnShareWhatsapp = document.getElementById("btnShareWhatsapp");
+btnShareWhatsapp.href = "https://wa.me/?text=" + encodeURIComponent(SHARE_TEXT);
+btnShareWhatsapp.addEventListener("click", ()=>{
+  logEvento('thanks', 'compartilhou_whatsapp');
+});
+
+document.getElementById("btnCopyLink").addEventListener("click", async (e)=>{
+  logEvento('thanks', 'copiou_link');
+  const btn = e.currentTarget;
+  const original = btn.textContent;
+  try{
+    await navigator.clipboard.writeText(SHARE_URL);
+  } catch(err){
+    const temp = document.createElement("input");
+    temp.value = SHARE_URL;
+    document.body.appendChild(temp);
+    temp.select();
+    try{ document.execCommand("copy"); } catch(e2){ /* clipboard indisponível, ignora */ }
+    document.body.removeChild(temp);
+  }
+  btn.textContent = "Link copiado!";
+  setTimeout(()=>{ btn.textContent = original; }, 2000);
 });
 
 const INTERESSES_PAGOS = ["Pagaria uma vez, ~R$17,90", "Pagaria uma vez, ~R$19,90", "Pagaria assinatura mensal pequena"];
